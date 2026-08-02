@@ -1,9 +1,9 @@
-import { View, type ViewProps } from "react-native";
+import { View, type ViewProps, type ViewStyle } from "react-native";
 
 import { cn } from "../../lib/cn";
 
 type SkeletonProps = ViewProps & {
-  width?: number | string;
+  width?: ViewStyle["width"];
   height?: number;
   className?: string;
 };

@@ -33,6 +33,7 @@ const showcaseItems: ShowcaseItem[] = [
   {
     title: "Shadows and Elevation",
     hint: "Depth levels, contrast, and elevation behavior across themes.",
+    href: "./showcase/shadows-elevation",
   },
   {
     title: "Motion Tokens",

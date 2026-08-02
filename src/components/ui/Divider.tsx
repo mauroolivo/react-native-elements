@@ -14,7 +14,6 @@ export function Divider({
 }: DividerProps) {
   return (
     <View
-      accessibilityRole="separator"
       className={cn(
         orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
         "bg-border",
