@@ -1,35 +1,15 @@
 import { Stack } from "expo-router";
-import { SymbolView } from "expo-symbols";
 import { useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, View } from "react-native";
 
 import { Button, Card, Divider, Screen, Text } from "../../components/ui";
-import {
-    buttonShowcaseIcons,
-    type AppSymbolName,
-} from "../../theme/icons/AppIcons";
+import { AppSymbolIcon, buttonIcons } from "../../theme/icons/AppIcons";
 
 type ButtonIconProps = {
   size?: number;
   tintColor?: string;
   color?: string;
 };
-
-function ShowcaseIcon({
-  name,
-  size = 16,
-  tintColor,
-  color,
-}: ButtonIconProps & { name: AppSymbolName }) {
-  return (
-    <SymbolView
-      name={name}
-      size={size}
-      tintColor={color ?? tintColor}
-      resizeMode="scaleAspectFit"
-    />
-  );
-}
 
 function SpinnerIcon({ size = 16, tintColor, color }: ButtonIconProps) {
   return (
@@ -148,10 +128,8 @@ export default function ButtonComponentShowcase() {
 
           <Button
             variant="secondary"
-            leadingIcon={<ShowcaseIcon name={buttonShowcaseIcons.favorite} />}
-            trailingIcon={
-              <ShowcaseIcon name={buttonShowcaseIcons.disclosure} />
-            }
+            leadingIcon={<AppSymbolIcon name={buttonIcons.favorite} />}
+            trailingIcon={<AppSymbolIcon name={buttonIcons.disclosure} />}
             onPress={() => showPressed("Custom icon content")}
           >
             Custom Content With Icons
@@ -168,7 +146,7 @@ export default function ButtonComponentShowcase() {
 
           <Button
             variant="primary"
-            leadingIcon={<ShowcaseIcon name={buttonShowcaseIcons.download} />}
+            leadingIcon={<AppSymbolIcon name={buttonIcons.download} />}
             onPress={() => showPressed("Leading icon")}
           >
             Download Report
@@ -176,7 +154,7 @@ export default function ButtonComponentShowcase() {
 
           <Button
             variant="secondary"
-            trailingIcon={<ShowcaseIcon name={buttonShowcaseIcons.continue} />}
+            trailingIcon={<AppSymbolIcon name={buttonIcons.continue} />}
             onPress={() => showPressed("Trailing icon")}
           >
             Continue
@@ -184,10 +162,8 @@ export default function ButtonComponentShowcase() {
 
           <Button
             variant="ghost"
-            leadingIcon={<ShowcaseIcon name={buttonShowcaseIcons.edit} />}
-            trailingIcon={
-              <ShowcaseIcon name={buttonShowcaseIcons.disclosure} />
-            }
+            leadingIcon={<AppSymbolIcon name={buttonIcons.edit} />}
+            trailingIcon={<AppSymbolIcon name={buttonIcons.disclosure} />}
             onPress={() => showPressed("Dual icons")}
           >
             Edit Profile

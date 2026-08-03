@@ -1,6 +1,6 @@
 import "../../global.css";
 
-import { ThemeProvider, useTheme } from "../theme/ThemeProvider";
+import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -19,11 +19,31 @@ function RootNavigator() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: colors.background },
-          headerStyle: { backgroundColor: colors.backgroundAlt },
+          headerStyle: { backgroundColor: colors.background },
           headerTintColor: colors.text,
           headerTitleStyle: { color: colors.text },
         }}
-      />
+      >
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.background },
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.text,
+            headerTitleStyle: { color: colors.text },
+          }}
+        />
+      </Stack>
+      {/* <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+          headerStyle: { backgroundColor: colors.background },
+          headerTintColor: colors.text,
+          headerTitleStyle: { color: colors.text },
+        }}
+      /> */}
     </>
   );
 }

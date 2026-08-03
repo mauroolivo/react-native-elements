@@ -1,7 +1,13 @@
 import { SymbolView } from "expo-symbols";
-import type { ComponentProps } from "react";
+import { createElement, type ComponentProps } from "react";
 
 export type AppSymbolName = ComponentProps<typeof SymbolView>["name"];
+export type AppIconProps = {
+  name: AppSymbolName;
+  size?: number;
+  tintColor?: string;
+  color?: string;
+};
 
 export const appIcons = {
   person: {
@@ -9,9 +15,19 @@ export const appIcons = {
     android: "person",
     web: "person",
   },
+  back: {
+    ios: "chevron.left",
+    android: "arrow_back",
+    web: "arrow_back",
+  },
+  close: {
+    ios: "xmark",
+    android: "close",
+    web: "close",
+  },
 } satisfies Record<string, AppSymbolName>;
 
-export const buttonShowcaseIcons = {
+export const buttonIcons = {
   favorite: {
     ios: "star.fill",
     android: "star",
@@ -38,3 +54,19 @@ export const buttonShowcaseIcons = {
     web: "edit",
   },
 } satisfies Record<string, AppSymbolName>;
+
+export const buttonShowcaseIcons = buttonIcons;
+
+export function AppSymbolIcon({
+  name,
+  size = 16,
+  tintColor,
+  color,
+}: AppIconProps) {
+  return createElement(SymbolView, {
+    name,
+    size,
+    tintColor: color ?? tintColor,
+    resizeMode: "scaleAspectFit",
+  });
+}

@@ -20,13 +20,6 @@ const variantClasses = {
     "border border-danger bg-danger active:border-dangerPressed active:bg-dangerPressed",
 } as const;
 
-const labelClasses = {
-  primary: "text-primaryForeground",
-  secondary: "text-secondaryForeground",
-  ghost: "text-text",
-  danger: "text-dangerForeground",
-} as const;
-
 const sizeClasses = {
   sm: "min-h-10 px-md py-xs",
   md: "min-h-12 px-lg py-sm",
@@ -76,12 +69,14 @@ export function Button({
   ...props
 }: ButtonProps) {
   const { colors } = useTheme();
+  const foregroundColor = colors[iconTones[variant]];
 
   const content =
     typeof children === "string" ? (
       <Text
         variant="labelMd"
-        className={cn("font-semibold", labelClasses[variant])}
+        className="font-semibold"
+        style={{ color: foregroundColor }}
       >
         {children}
       </Text>
@@ -91,7 +86,7 @@ export function Button({
 
   const iconDefaults = {
     size: iconSizes[size],
-    tintColor: colors[iconTones[variant]],
+    tintColor: foregroundColor,
   };
 
   return (
