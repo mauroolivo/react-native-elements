@@ -46,6 +46,7 @@ const showcaseItems: ShowcaseItem[] = [
   {
     title: "Button Component",
     hint: "Variants, sizes, disabled/loading states, and icon placements.",
+    href: "./showcase/button-component",
   },
   {
     title: "Input Component",
