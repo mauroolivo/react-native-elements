@@ -8,11 +8,19 @@ export default function Index() {
 
   return (
     <Screen>
-      <View className="flex-1 items-center justify-center px-lg">
-        <Button fullWidth={true} onPress={() => router.push("./showcase")}>
+      <View className="flex-1 items-center justify-center px-lg gap-4">
+        <Button
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("./showcase")}
+        >
           Open Design System Showcase
         </Button>
-        <Button fullWidth={true} onPress={() => router.push("./navigation")}>
+        <Button
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("./navigation")}
+        >
           Open Navigation Showcase
         </Button>
       </View>

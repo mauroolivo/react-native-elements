@@ -19,6 +19,7 @@ export default function Index() {
         <Button
           className="mt-lg"
           fullWidth={true}
+          size="lg"
           leadingIcon={<AppSymbolIcon name={appIcons.back} />}
           onPress={() => {
             if (router.canGoBack()) {
@@ -29,6 +30,14 @@ export default function Index() {
           }}
         >
           Back to Home
+        </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/alpha")}
+        >
+          Open Tabs Navigation
         </Button>
       </View>
     </Screen>

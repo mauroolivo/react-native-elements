@@ -53,7 +53,7 @@ module.exports = {
         "6xl": "64px",
       },
       borderRadius: {
-        control: "14px",
+        control: "8px",
         card: "20px",
         panel: "24px",
         pill: "9999px",

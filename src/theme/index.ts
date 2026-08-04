@@ -8,7 +8,6 @@ import {
 } from "./colors";
 import { appIcons } from "./icons/AppIcons";
 import { motion } from "./motion";
-import { radius } from "./radius";
 import { shadows } from "./shadows";
 import { spacing } from "./spacing";
 import type { ThemeMode } from "./ThemeProvider";
@@ -19,7 +18,6 @@ export {
     appIcons,
     hexToRgbTriplet,
     motion,
-    radius,
     semanticColors,
     shadows,
     spacing,
