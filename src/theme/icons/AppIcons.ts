@@ -10,6 +10,16 @@ export type AppIconProps = {
 };
 
 export const appIcons = {
+  home: {
+    ios: "house",
+    android: "home",
+    web: "home",
+  },
+  settings: {
+    ios: "gear",
+    android: "settings",
+    web: "settings",
+  },
   person: {
     ios: "person.crop.circle",
     android: "person",

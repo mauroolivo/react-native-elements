@@ -37,7 +37,15 @@ export default function Index() {
           size="lg"
           onPress={() => router.push("/navigation/alpha")}
         >
-          Open Tabs Navigation
+          Open Tabs Navigation (js)
+        </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/beta")}
+        >
+          Open Tabs Navigation (native)
         </Button>
       </View>
     </Screen>
