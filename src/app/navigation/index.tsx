@@ -47,6 +47,14 @@ export default function Index() {
         >
           Open Tabs Navigation (native)
         </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/gamma")}
+        >
+          Open Slot + Relative Navigation
+        </Button>
       </View>
     </Screen>
   );
