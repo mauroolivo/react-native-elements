@@ -23,6 +23,13 @@ export default function Index() {
         >
           Open Navigation Showcase
         </Button>
+        <Button
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("./legal")}
+        >
+          Open Legal (push)
+        </Button>
       </View>
     </Screen>
   );

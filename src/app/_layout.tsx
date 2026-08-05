@@ -34,6 +34,17 @@ function RootNavigator() {
             headerTitleStyle: { color: colors.text },
           }}
         />
+        <Stack.Screen
+          name="legal"
+          options={{
+            headerShown: true,
+            title: "Legal",
+            contentStyle: { backgroundColor: colors.background },
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.text,
+            headerTitleStyle: { color: colors.text },
+          }}
+        />
       </Stack>
       {/* <Stack
         screenOptions={{

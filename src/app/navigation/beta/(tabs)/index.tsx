@@ -7,6 +7,14 @@ export default function Tab() {
     <View style={styles.container}>
       <Text>Tab Home</Text>
       <Button
+        className="mt-md"
+        fullWidth={false}
+        size="md"
+        onPress={() => router.navigate("/legal")}
+      >
+        Open Legal (navigate)
+      </Button>
+      <Button
         className="mt-lg"
         fullWidth={false}
         size="md"
