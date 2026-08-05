@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui";
+import { Button, Screen, Text } from "@/components/ui";
 import { useRouter } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
 
 export default function Tab() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <Screen style={{ justifyContent: "center", alignItems: "center" }}>
       <Text>Tab Home</Text>
       <Button
         className="mt-md"
@@ -30,14 +29,6 @@ export default function Tab() {
       >
         Exit this tab
       </Button>
-    </View>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

@@ -1,17 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Screen, Text } from "@/components/ui";
 
 export default function Tab() {
   return (
-    <View style={styles.container}>
+    <Screen style={{ justifyContent: "center", alignItems: "center" }}>
       <Text>Tab Settings</Text>
-    </View>
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
