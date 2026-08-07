@@ -51,6 +51,14 @@ export default function Index() {
           className="mt-md"
           fullWidth={true}
           size="lg"
+          onPress={() => router.push("/navigation/tabs_custom")}
+        >
+          Open Tabs Navigation (custom)
+        </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
           onPress={() => router.push("/navigation/slot_example")}
         >
           Open Slot + Relative Navigation
