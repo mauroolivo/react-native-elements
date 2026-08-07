@@ -35,7 +35,7 @@ export default function Index() {
           className="mt-md"
           fullWidth={true}
           size="lg"
-          onPress={() => router.push("/navigation/alpha")}
+          onPress={() => router.push("/navigation/tabs_js")}
         >
           Open Tabs Navigation (js)
         </Button>
@@ -43,7 +43,7 @@ export default function Index() {
           className="mt-md"
           fullWidth={true}
           size="lg"
-          onPress={() => router.push("/navigation/beta")}
+          onPress={() => router.push("/navigation/tabs_native")}
         >
           Open Tabs Navigation (native)
         </Button>
@@ -51,7 +51,7 @@ export default function Index() {
           className="mt-md"
           fullWidth={true}
           size="lg"
-          onPress={() => router.push("/navigation/gamma")}
+          onPress={() => router.push("/navigation/slot_example")}
         >
           Open Slot + Relative Navigation
         </Button>

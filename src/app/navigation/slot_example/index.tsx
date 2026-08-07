@@ -15,7 +15,7 @@ export default function GammaIndex() {
       <Button
         fullWidth={true}
         size="md"
-        onPress={() => router.push("/navigation/gamma/details")}
+        onPress={() => router.push("/navigation/slot_example/details")}
       >
         Go to ./details
       </Button>
@@ -23,7 +23,7 @@ export default function GammaIndex() {
         fullWidth={true}
         size="md"
         variant="secondary"
-        onPress={() => router.push("/navigation/gamma/settings")}
+        onPress={() => router.push("/navigation/slot_example/settings")}
       >
         Go to ./settings
       </Button>
