@@ -22,11 +22,7 @@ export default function Index() {
           size="lg"
           leadingIcon={<AppSymbolIcon name={appIcons.back} />}
           onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-              return;
-            }
-            router.replace("/");
+            router.back();
           }}
         >
           Back to Home

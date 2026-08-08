@@ -10,11 +10,7 @@ export default function Tab() {
         fullWidth={false}
         size="md"
         onPress={() => {
-          if (router.canGoBack()) {
-            router.back();
-            return;
-          }
-          router.replace("/");
+          router.back();
         }}
       >
         Exit this tab

@@ -19,11 +19,7 @@ export default function LegalScreen() {
           fullWidth={true}
           size="md"
           onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-              return;
-            }
-            router.replace("/");
+            router.back();
           }}
         >
           Back
