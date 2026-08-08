@@ -14,6 +14,10 @@ const headerPresets = [
     id: "minimal",
     label: "Minimal Back Button",
   },
+  {
+    id: "minimal_actions",
+    label: "Minimal + Camera/Mic Actions",
+  },
 ] as const;
 
 export default function Headers() {

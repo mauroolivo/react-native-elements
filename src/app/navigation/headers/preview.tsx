@@ -1,9 +1,10 @@
 import { Text } from "@/components/ui";
+import { AppSymbolIcon } from "@/theme/icons/AppIcons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Platform, Pressable, ScrollView, View } from "react-native";
 
-type HeaderPreset = "brand" | "actions" | "minimal";
+type HeaderPreset = "brand" | "actions" | "minimal" | "minimal_actions";
 
 const defaultPreset: HeaderPreset = "brand";
 
@@ -33,6 +34,17 @@ const presetCopy: Record<
       "Uses icon-only back button mode on iOS and hides the header shadow.",
     options: ["headerBackButtonDisplayMode", "headerShadowVisible", "title"],
   },
+  minimal_actions: {
+    title: "Minimal Back + Actions",
+    description:
+      "Uses minimal back button plus two icon actions in the right header area.",
+    options: [
+      "headerBackButtonDisplayMode",
+      "headerShadowVisible",
+      "headerRight",
+      "title",
+    ],
+  },
 };
 
 function toPreset(value: string | string[] | undefined): HeaderPreset {
@@ -40,7 +52,12 @@ function toPreset(value: string | string[] | undefined): HeaderPreset {
     return defaultPreset;
   }
 
-  if (value === "brand" || value === "actions" || value === "minimal") {
+  if (
+    value === "brand" ||
+    value === "actions" ||
+    value === "minimal" ||
+    value === "minimal_actions"
+  ) {
     return value;
   }
 
@@ -102,6 +119,64 @@ export default function HeaderPreviewScreen() {
                 ...(Platform.OS === "ios"
                   ? { headerBackButtonDisplayMode: "minimal" as const }
                   : {}),
+              }
+            : {}),
+          ...(preset === "minimal_actions"
+            ? {
+                title: "Minimal + Actions",
+                headerShadowVisible: false,
+                ...(Platform.OS === "ios"
+                  ? { headerBackButtonDisplayMode: "minimal" as const }
+                  : {}),
+                headerRight: () => (
+                  <View className="flex-row items-center">
+                    <Pressable
+                      accessibilityRole="button"
+                      hitSlop={10}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 20,
+                      }}
+                      onPress={() => console.log("Camera action pressed")}
+                    >
+                      <AppSymbolIcon
+                        name={{
+                          ios: "camera",
+                          android: "photo_camera",
+                          web: "photo_camera",
+                        }}
+                        size={22}
+                        tintColor={colors.text}
+                      />
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      hitSlop={10}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 20,
+                        marginLeft: 8,
+                      }}
+                      onPress={() => console.log("Mic action pressed")}
+                    >
+                      <AppSymbolIcon
+                        name={{
+                          ios: "mic",
+                          android: "mic",
+                          web: "mic",
+                        }}
+                        size={22}
+                        tintColor={colors.text}
+                      />
+                    </Pressable>
+                  </View>
+                ),
               }
             : {}),
         }}
