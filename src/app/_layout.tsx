@@ -5,7 +5,7 @@ import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -63,17 +63,46 @@ function getActiveStateLineage(
   return lineage;
 }
 
-function getActiveStackState(
+function getActiveRouteChain(state: NavigationLikeState | undefined): string[] {
+  const chain: string[] = [];
+  let cursor: NavigationLikeState | undefined = state;
+
+  while (cursor?.routes && cursor.routes.length > 0) {
+    const safeIndex = getSafeIndex(cursor);
+    if (safeIndex < 0) {
+      break;
+    }
+
+    const activeRoute = cursor.routes[safeIndex];
+    const routeName = activeRoute?.name;
+
+    if (routeName && routeName !== "__root") {
+      chain.push(routeName);
+    }
+
+    cursor = activeRoute?.state;
+  }
+
+  return chain;
+}
+
+function isRootWrapperStack(state: NavigationLikeState): boolean {
+  const routes = state.routes ?? [];
+  return routes.length === 1 && routes[0]?.name === "__root";
+}
+
+function getAppRootStackState(
   state: NavigationLikeState | undefined,
 ): NavigationLikeState | undefined {
   const lineage = getActiveStateLineage(state);
   const stackStates = lineage.filter((item) => item.type === "stack");
 
-  if (stackStates.length > 0) {
-    return stackStates[stackStates.length - 1];
+  const meaningfulStack = stackStates.find((item) => !isRootWrapperStack(item));
+  if (meaningfulStack) {
+    return meaningfulStack;
   }
 
-  return lineage[lineage.length - 1];
+  return stackStates[0];
 }
 
 function RootNavigator() {
@@ -128,7 +157,6 @@ function RootNavigator() {
 
 export default function RootLayout() {
   const navigationRef = useNavigationContainerRef();
-  const previousLogRef = useRef("");
 
   const handleThemeReady = useCallback(() => {
     void SplashScreen.hideAsync();
@@ -137,11 +165,29 @@ export default function RootLayout() {
   useEffect(() => {
     const logCurrentStack = () => {
       const rootState = navigationRef.getRootState();
-      const stackState = getActiveStackState(
+      const stackState = getAppRootStackState(
         rootState as NavigationLikeState | undefined,
       );
-      const stackRoutes = stackState?.routes ?? [];
-      const stackIndex = stackState ? getSafeIndex(stackState) : -1;
+      const activeRouteChain = getActiveRouteChain(
+        rootState as NavigationLikeState | undefined,
+      );
+      const activeLeaf =
+        activeRouteChain.length > 0
+          ? activeRouteChain[activeRouteChain.length - 1]
+          : "";
+
+      if (!stackState) {
+        console.log(
+          "[navigation stack] -> <unavailable>",
+          activeLeaf ? `| active: ${activeLeaf}` : "",
+        );
+        return;
+      }
+
+      const stackRoutes = stackState.routes ?? [];
+      const stackIndex = getSafeIndex(stackState);
+      const activeRootRouteName =
+        stackIndex >= 0 ? (stackRoutes[stackIndex]?.name ?? "") : "";
 
       const stackEntries = stackRoutes
         .map((route, index) => {
@@ -151,12 +197,12 @@ export default function RootLayout() {
         })
         .join(" > ");
 
-      const payload = JSON.stringify({ stackEntries, stackIndex });
-
-      if (payload !== previousLogRef.current) {
-        console.log("[navigation stack] ->", stackEntries);
-        previousLogRef.current = payload;
-      }
+      console.log(
+        "[navigation stack] ->",
+        activeLeaf && activeLeaf !== activeRootRouteName
+          ? `${stackEntries} | active: ${activeLeaf}`
+          : stackEntries,
+      );
     };
 
     logCurrentStack();
