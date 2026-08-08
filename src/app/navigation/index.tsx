@@ -59,6 +59,14 @@ export default function Index() {
         >
           Open Slot + Relative Navigation
         </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/headers")}
+        >
+          Open Stack Headers Showcase
+        </Button>
       </View>
     </Screen>
   );
