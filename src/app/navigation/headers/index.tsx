@@ -18,6 +18,14 @@ const headerPresets = [
     id: "minimal_actions",
     label: "Minimal + Camera/Mic Actions",
   },
+  {
+    id: "overflow_menu",
+    label: "Minimal + Overflow Menu",
+  },
+  {
+    id: "logo_title",
+    label: "Image Logo Title",
+  },
 ] as const;
 
 export default function Headers() {
