@@ -1,9 +1,14 @@
 import { Button, Screen, Text } from "@/components/ui";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { View } from "react-native";
 
 export default function LegalScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{
+    source?: string;
+    section?: string;
+    mode?: string;
+  }>();
 
   return (
     <Screen>
@@ -15,6 +20,12 @@ export default function LegalScreen() {
           Global legal information and policies available from multiple app
           sections.
         </Text>
+        <View className="w-full rounded-card border border-border bg-surface p-lg gap-xs">
+          <Text variant="titleMd">Route Params</Text>
+          <Text tone="muted">source: {params.source ?? "-"}</Text>
+          <Text tone="muted">section: {params.section ?? "-"}</Text>
+          <Text tone="muted">mode: {params.mode ?? "-"}</Text>
+        </View>
         <Button
           fullWidth={true}
           size="md"

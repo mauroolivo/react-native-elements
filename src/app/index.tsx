@@ -26,7 +26,16 @@ export default function Index() {
         <Button
           fullWidth={true}
           size="lg"
-          onPress={() => router.push("./legal")}
+          onPress={() =>
+            router.push({
+              pathname: "/legal",
+              params: {
+                source: "home",
+                section: "policies",
+                mode: "push",
+              },
+            })
+          }
         >
           Open Legal (push)
         </Button>

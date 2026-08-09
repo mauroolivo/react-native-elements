@@ -24,7 +24,16 @@ export default function Tab() {
         className="mt-md"
         fullWidth={false}
         size="md"
-        onPress={() => router.navigate("/legal")}
+        onPress={() =>
+          router.navigate({
+            pathname: "/legal",
+            params: {
+              source: "tabs_js",
+              section: "notifications",
+              mode: "navigate",
+            },
+          })
+        }
       >
         Open Legal (navigate)
       </Button>
