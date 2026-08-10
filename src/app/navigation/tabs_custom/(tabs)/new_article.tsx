@@ -1,9 +1,5 @@
-import { Screen, Text } from "@/components/ui";
+import { Redirect } from "expo-router";
 
 export default function Tab() {
-  return (
-    <Screen style={{ justifyContent: "center", alignItems: "center" }}>
-      <Text>Tab New Article</Text>
-    </Screen>
-  );
+  return <Redirect href="/navigation/tabs_custom" />;
 }
