@@ -1,5 +1,5 @@
 import { Button, Screen, Text } from "@/components/ui";
-import { useRouter } from "expo-router";
+import { type Href, useRouter } from "expo-router";
 
 const modalPresets = [
   {
@@ -11,6 +11,11 @@ const modalPresets = [
     id: "sheet",
     label: "Form sheet",
     href: "/navigation/modals/sheet",
+  },
+  {
+    id: "sheetIntrinsic",
+    label: "Intrinsic height sheet",
+    href: "/navigation/modals/sheetIntrinsic",
   },
   {
     id: "fullScreen",
@@ -38,7 +43,7 @@ export default function Modals() {
           fullWidth={true}
           size="lg"
           variant="secondary"
-          onPress={() => router.push(preset.href)}
+          onPress={() => router.push(preset.href as Href)}
         >
           {preset.label}
         </Button>

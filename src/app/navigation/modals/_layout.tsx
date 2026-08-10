@@ -46,6 +46,20 @@ export default function ModalsLayout() {
         }}
       />
       <Stack.Screen
+        name="sheetIntrinsic"
+        options={{
+          headerShown: false,
+          presentation: "formSheet",
+          gestureEnabled: true,
+          contentStyle: {
+            backgroundColor: colors.background,
+          },
+          sheetAllowedDetents: "fitToContents",
+          sheetGrabberVisible: true,
+          sheetCornerRadius: 24,
+        }}
+      />
+      <Stack.Screen
         name="fullScreen"
         options={{
           title: "Full-screen Modal",
