@@ -67,6 +67,14 @@ export default function Index() {
         >
           Open Stack Headers Showcase
         </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/modals")}
+        >
+          Open Modal Showcase
+        </Button>
       </View>
     </Screen>
   );
