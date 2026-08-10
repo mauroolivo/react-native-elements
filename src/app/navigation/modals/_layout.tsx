@@ -5,7 +5,14 @@ import { Pressable } from "react-native";
 export default function ModalsLayout() {
   const { colors } = useTheme();
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: { backgroundColor: colors.background },
+        headerStyle: { backgroundColor: colors.background },
+        headerTintColor: colors.text,
+        headerTitleStyle: { color: colors.text },
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{
