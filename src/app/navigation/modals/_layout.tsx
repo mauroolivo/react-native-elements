@@ -60,6 +60,17 @@ export default function ModalsLayout() {
         }}
       />
       <Stack.Screen
+        name="overlaySheet"
+        options={{
+          headerShown: false,
+          presentation: "transparentModal",
+          animation: "fade",
+          contentStyle: {
+            backgroundColor: "transparent",
+          },
+        }}
+      />
+      <Stack.Screen
         name="fullScreen"
         options={{
           title: "Full-screen Modal",

@@ -18,6 +18,11 @@ const modalPresets = [
     href: "/navigation/modals/sheetIntrinsic",
   },
   {
+    id: "overlaySheet",
+    label: "Transparent overlay sheet",
+    href: "/navigation/modals/overlaySheet",
+  },
+  {
     id: "fullScreen",
     label: "Full-screen modal",
     href: "/navigation/modals/fullScreen",
