@@ -1,5 +1,6 @@
 import "../../global.css";
 
+import { LoadingOverlayProvider } from "@/components/ui";
 import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 
 import { Stack, useNavigationContainerRef } from "expo-router";
@@ -141,6 +142,18 @@ function RootNavigator() {
             headerTitleStyle: { color: colors.text },
           }}
         />
+        <Stack.Screen
+          name="loaderSheet"
+          options={{
+            headerShown: false,
+            presentation: "formSheet",
+            sheetAllowedDetents: [0.35, 0.6],
+            sheetInitialDetentIndex: 0,
+            sheetGrabberVisible: true,
+            sheetCornerRadius: 24,
+            contentStyle: { backgroundColor: colors.background },
+          }}
+        />
       </Stack>
       {/* <Stack
         screenOptions={{
@@ -215,6 +228,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider onThemeReady={handleThemeReady}>
       <RootNavigator />
+      <LoadingOverlayProvider />
     </ThemeProvider>
   );
 }

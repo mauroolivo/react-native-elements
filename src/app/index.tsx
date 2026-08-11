@@ -26,6 +26,14 @@ export default function Index() {
         <Button
           fullWidth={true}
           size="lg"
+          variant="secondary"
+          onPress={() => router.push("/loaderSheet")}
+        >
+          Open Loader Form Sheet
+        </Button>
+        <Button
+          fullWidth={true}
+          size="lg"
           onPress={() =>
             router.push({
               pathname: "/legal",

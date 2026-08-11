@@ -7,6 +7,7 @@ export { Divider } from "./Divider";
 export { Field } from "./Field";
 export { HStack } from "./HStack";
 export { Input } from "./Input";
+export { loadingOverlay, LoadingOverlayProvider } from "./LoadingOverlay";
 export { Screen } from "./Screen";
 export { Skeleton } from "./Skeleton";
 export { Stack } from "./Stack";
