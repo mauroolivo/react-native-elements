@@ -33,7 +33,7 @@ export const semanticColors = {
     surfaceAlt: neutralScale[100],
     surfaceElevated: "#ffffff",
     surfaceInverse: neutralScale[900],
-    overlay: "#00000066",
+    overlay: "#000000CC",
     border: neutralScale[200],
     borderStrong: neutralScale[300],
 
@@ -75,7 +75,7 @@ export const semanticColors = {
     surfaceAlt: neutralScale[800],
     surfaceElevated: neutralScale[800],
     surfaceInverse: neutralScale[50],
-    overlay: "#00000099",
+    overlay: "#000000CC",
     border: neutralScale[700],
     borderStrong: neutralScale[600],
 

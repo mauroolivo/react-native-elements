@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Modal, StyleSheet, Text, View } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Animated, Easing, Modal, Text as RNText, View } from "react-native";
+
+import { useTheme } from "@/theme/ThemeProvider";
 
 type OverlayStore = {
   visible: boolean;
@@ -114,7 +116,9 @@ export const loadingOverlay = {
 };
 
 export function LoadingOverlayProvider() {
+  const { colors, resolvedTheme } = useTheme();
   const providerIdRef = useRef<number | null>(null);
+  const [rotationValue] = useState(() => new Animated.Value(0));
   const [localState, setLocalState] = useState<OverlayStore>(state);
   const [isActiveProvider, setIsActiveProvider] = useState(false);
 
@@ -142,6 +146,40 @@ export function LoadingOverlayProvider() {
     };
   }, []);
 
+  const ringRotation = useMemo(
+    () =>
+      rotationValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["0deg", "360deg"],
+      }),
+    [rotationValue],
+  );
+
+  useEffect(() => {
+    if (!(localState.visible && isActiveProvider)) {
+      rotationValue.stopAnimation();
+      rotationValue.setValue(0);
+      return;
+    }
+
+    const loop = Animated.loop(
+      Animated.timing(rotationValue, {
+        toValue: 1,
+        duration: 900,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    );
+
+    loop.start();
+
+    return () => {
+      loop.stop();
+      rotationValue.stopAnimation();
+      rotationValue.setValue(0);
+    };
+  }, [isActiveProvider, localState.visible, rotationValue]);
+
   return (
     <Modal
       visible={localState.visible && isActiveProvider}
@@ -153,37 +191,29 @@ export function LoadingOverlayProvider() {
       // Intentionally do nothing so physical back never dismisses the loader.
       onRequestClose={() => {}}
     >
-      <View style={styles.overlay} pointerEvents="auto">
-        <View style={styles.box}>
-          <ActivityIndicator size="large" color="#ffffff" />
-          <Text style={styles.text}>{localState.text}</Text>
-        </View>
+      <View
+        className="flex-1 items-center justify-center px-2xl"
+        pointerEvents="auto"
+        style={{ backgroundColor: colors.overlay }}
+      >
+        <Animated.View
+          className="h-14 w-14 rounded-pill border-4"
+          style={{
+            borderColor: colors.primary,
+            borderTopColor: colors.primary,
+            borderRightColor: "transparent",
+            transform: [{ rotate: ringRotation }],
+          }}
+        />
+        <RNText
+          className="mt-lg text-center text-titleMd"
+          style={{
+            color: resolvedTheme === "dark" ? colors.text : colors.textInverse,
+          }}
+        >
+          {localState.text}
+        </RNText>
       </View>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  box: {
-    minWidth: 160,
-    maxWidth: "80%",
-    paddingHorizontal: 24,
-    paddingVertical: 20,
-    borderRadius: 14,
-    alignItems: "center",
-    backgroundColor: "rgba(30,30,30,0.88)",
-  },
-  text: {
-    color: "#ffffff",
-    marginTop: 12,
-    fontSize: 14,
-    fontWeight: "500",
-    textAlign: "center",
-  },
-});
