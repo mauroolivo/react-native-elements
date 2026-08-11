@@ -1,36 +1,15 @@
-import { Button, loadingOverlay } from "@/components/ui";
+import { Button, withLoader } from "@/components/ui";
 import { useRouter } from "expo-router";
-import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 export default function Tab() {
   const router = useRouter();
-  const [runningLoader, setRunningLoader] = useState(false);
-  const loaderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (loaderTimerRef.current) {
-        clearTimeout(loaderTimerRef.current);
-        loaderTimerRef.current = null;
-      }
-
-      loadingOverlay.hide();
-    };
-  }, []);
 
   const handleOpenLoader = () => {
-    if (runningLoader) {
-      return;
-    }
-
-    setRunningLoader(true);
-    loadingOverlay.show("Processing request...");
-
-    loaderTimerRef.current = setTimeout(() => {
-      loadingOverlay.hide();
-      loaderTimerRef.current = null;
-      setRunningLoader(false);
-    }, 5000);
+    void withLoader("Processing request...", async () => {
+      await new Promise<void>((resolve) => {
+        setTimeout(resolve, 5000);
+      });
+    });
   };
 
   return (
@@ -60,7 +39,7 @@ export default function Tab() {
         variant="secondary"
         onPress={handleOpenLoader}
       >
-        {runningLoader ? "Loading..." : "Open Loader"}
+        Open Loader
       </Button>
       <Button
         className="mt-lg"

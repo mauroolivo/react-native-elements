@@ -59,6 +59,10 @@ export function show(text: string = DEFAULT_TEXT) {
   emit();
 }
 
+export function loaderStart(text: string = DEFAULT_TEXT) {
+  show(text);
+}
+
 export function hide() {
   state = {
     ...state,
@@ -67,12 +71,28 @@ export function hide() {
   emit();
 }
 
+export function loaderStop() {
+  hide();
+}
+
 export function updateText(text: string) {
   state = {
     ...state,
     text,
   };
   emit();
+}
+
+export async function withLoader<T>(
+  text: string,
+  task: () => Promise<T> | T,
+): Promise<T> {
+  loaderStart(text);
+  try {
+    return await task();
+  } finally {
+    loaderStop();
+  }
 }
 
 function subscribe(listener: Listener) {
@@ -88,6 +108,9 @@ export const loadingOverlay = {
   show,
   hide,
   updateText,
+  start: loaderStart,
+  stop: loaderStop,
+  withLoader,
 };
 
 export function LoadingOverlayProvider() {

@@ -3,7 +3,7 @@ import {
     LoadingOverlayProvider,
     Screen,
     Text,
-    loadingOverlay,
+    withLoader,
 } from "@/components/ui";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -11,16 +11,11 @@ import { useEffect, useRef, useState } from "react";
 export default function LoaderSheet() {
   const router = useRouter();
   const [running, setRunning] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
-      }
-
-      loadingOverlay.hide();
+      mountedRef.current = false;
     };
   }, []);
 
@@ -30,14 +25,17 @@ export default function LoaderSheet() {
     }
 
     setRunning(true);
-    loadingOverlay.show("Processing request...");
 
-    timerRef.current = setTimeout(() => {
-      loadingOverlay.hide();
-      setRunning(false);
-      timerRef.current = null;
-      router.back();
-    }, 5000);
+    void withLoader("Processing request...", async () => {
+      await new Promise<void>((resolve) => {
+        setTimeout(resolve, 5000);
+      });
+
+      if (mountedRef.current) {
+        setRunning(false);
+        router.back();
+      }
+    });
   };
 
   return (
