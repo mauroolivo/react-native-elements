@@ -75,6 +75,14 @@ export default function Index() {
         >
           Open Modal Showcase
         </Button>
+        <Button
+          className="mt-md"
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/navigation/drawer")}
+        >
+          Open Drawer Navigation
+        </Button>
       </View>
     </Screen>
   );
