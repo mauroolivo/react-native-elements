@@ -9,8 +9,8 @@ import {
 } from "react";
 import { I18nextProvider } from "react-i18next";
 
-import i18n, {
-    setLanguage as changeLanguage,
+import i18nextInstance, {
+    changeAppLanguage,
     getDeviceLanguage,
     type SupportedLanguage,
 } from "./index";
@@ -53,7 +53,7 @@ export function LanguageProvider({
         const storedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
 
         if (isMounted && isSupportedLanguage(storedLanguage)) {
-          await changeLanguage(storedLanguage);
+          await changeAppLanguage(storedLanguage);
           setLanguageState(storedLanguage);
           setLanguagePreference(storedLanguage);
         }
@@ -82,14 +82,14 @@ export function LanguageProvider({
       language,
       languagePreference,
       setLanguage: async (nextLanguage) => {
-        await changeLanguage(nextLanguage);
+        await changeAppLanguage(nextLanguage);
         await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
         setLanguageState(nextLanguage);
         setLanguagePreference(nextLanguage);
       },
       resetToSystemLanguage: async () => {
         const deviceLanguage = getDeviceLanguage();
-        await changeLanguage(deviceLanguage);
+        await changeAppLanguage(deviceLanguage);
         await AsyncStorage.removeItem(LANGUAGE_STORAGE_KEY);
         setLanguageState(deviceLanguage);
         setLanguagePreference(null);
@@ -104,7 +104,7 @@ export function LanguageProvider({
 
   return (
     <LanguageContext.Provider value={value}>
-      <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+      <I18nextProvider i18n={i18nextInstance}>{children}</I18nextProvider>
     </LanguageContext.Provider>
   );
 }

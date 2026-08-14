@@ -1,5 +1,9 @@
 import { getLocales } from "expo-localization";
-import i18n from "i18next";
+import i18nextInstance, {
+    changeLanguage,
+    init,
+    use as registerI18nPlugin,
+} from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import enErrors from "./locales/en/errors.json";
@@ -53,7 +57,8 @@ export function getDeviceLanguage(): SupportedLanguage {
   return isSupportedLanguage(languageCode) ? languageCode : defaultLanguage;
 }
 
-void i18n.use(initReactI18next).init({
+registerI18nPlugin(initReactI18next);
+void init({
   compatibilityJSON: "v4",
   lng: getDeviceLanguage(),
   fallbackLng: defaultLanguage,
@@ -66,15 +71,17 @@ void i18n.use(initReactI18next).init({
   },
 });
 
-i18n.services.formatter?.add("number", (value, lng) =>
+i18nextInstance.services.formatter?.add("number", (value, lng) =>
   new Intl.NumberFormat(lng).format(value as number),
 );
 
-export function setLanguage(language: SupportedLanguage): Promise<unknown> {
-  return i18n.changeLanguage(language);
+export function changeAppLanguage(
+  language: SupportedLanguage,
+): Promise<unknown> {
+  return changeLanguage(language);
 }
 
-export default i18n;
+export default i18nextInstance;
 
 declare module "i18next" {
   interface CustomTypeOptions {
