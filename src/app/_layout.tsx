@@ -1,6 +1,7 @@
 import "../../global.css";
 
 import { LoadingOverlayProvider } from "@/components/ui";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 
 import { Stack, useNavigationContainerRef } from "expo-router";
@@ -143,6 +144,17 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen
+          name="language"
+          options={{
+            headerShown: true,
+            title: "Language",
+            contentStyle: { backgroundColor: colors.background },
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.text,
+            headerTitleStyle: { color: colors.text },
+          }}
+        />
+        <Stack.Screen
           name="loaderSheet"
           options={{
             headerShown: false,
@@ -171,7 +183,7 @@ function RootNavigator() {
 export default function RootLayout() {
   const navigationRef = useNavigationContainerRef();
 
-  const handleThemeReady = useCallback(() => {
+  const handleAppReady = useCallback(() => {
     void SplashScreen.hideAsync();
   }, []);
 
@@ -226,9 +238,11 @@ export default function RootLayout() {
   }, [navigationRef]);
 
   return (
-    <ThemeProvider onThemeReady={handleThemeReady}>
-      <RootNavigator />
-      <LoadingOverlayProvider />
+    <ThemeProvider>
+      <LanguageProvider onLanguageReady={handleAppReady}>
+        <RootNavigator />
+        <LoadingOverlayProvider />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

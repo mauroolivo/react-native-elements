@@ -1,14 +1,15 @@
 import { Screen, Text } from "@/components/ui";
+import { useTranslation } from "react-i18next";
 
 export default function Page() {
+  const { t } = useTranslation("settings");
+
   return (
-    <Screen className="p-lg gap-md">
+    <Screen className="p-lg">
       <Text variant="headlineMd" tone="primary">
-        Drawer Navigation Settings
+        {t("title")}
       </Text>
-      <Text tone="muted">
-        This is the settings page for the drawer navigation.
-      </Text>
+      <Text tone="muted">{t("description")}</Text>
     </Screen>
   );
 }

@@ -1,14 +1,33 @@
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
-import { Button, Screen } from "@/components/ui";
+import { Button, HStack, Screen, Text } from "@/components/ui";
+import { languageFlags } from "@/i18n";
+import { useLanguage } from "@/i18n/LanguageProvider";
+import { useTheme } from "@/theme/ThemeProvider";
 
 export default function Index() {
   const router = useRouter();
+  const { t } = useTranslation("settings");
+  const { language } = useLanguage();
+  const { colors } = useTheme();
 
   return (
     <Screen>
       <View className="flex-1 items-center justify-center px-lg gap-4">
+        <Button
+          fullWidth={true}
+          size="lg"
+          onPress={() => router.push("/language")}
+        >
+          <HStack className="gap-sm">
+            <Text>{languageFlags[language]}</Text>
+            <Text style={{ color: colors.primaryForeground }}>
+              {t("language.title")}
+            </Text>
+          </HStack>
+        </Button>
         <Button
           fullWidth={true}
           size="lg"

@@ -35,6 +35,11 @@ export const appIcons = {
     android: "close",
     web: "close",
   },
+  language: {
+    ios: "globe",
+    android: "language",
+    web: "language",
+  },
 } satisfies Record<string, AppSymbolName>;
 
 export const buttonIcons = {

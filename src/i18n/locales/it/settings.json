@@ -1,0 +1,19 @@
+{
+  "title": "Impostazioni",
+  "description": "Modifica le impostazioni dell'applicazione.",
+  "appearance": {
+    "title": "Aspetto",
+    "system": "Sistema",
+    "light": "Chiaro",
+    "dark": "Scuro"
+  },
+  "language": {
+    "title": "Lingua",
+    "systemDefault": "Usa la lingua del dispositivo",
+    "options": {
+      "en": "Inglese",
+      "it": "Italiano",
+      "es": "Spagnolo"
+    }
+  }
+}

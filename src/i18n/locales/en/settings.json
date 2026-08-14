@@ -1,0 +1,19 @@
+{
+  "title": "Settings",
+  "description": "Adjust your application settings.",
+  "appearance": {
+    "title": "Appearance",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "title": "Language",
+    "systemDefault": "Use device language",
+    "options": {
+      "en": "English",
+      "it": "Italian",
+      "es": "Spanish"
+    }
+  }
+}
