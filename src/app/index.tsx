@@ -38,6 +38,13 @@ export default function Index() {
         <Button
           fullWidth={true}
           size="lg"
+          onPress={() => router.push("./showcase/internationalization")}
+        >
+          Open Internationalization Showcase
+        </Button>
+        <Button
+          fullWidth={true}
+          size="lg"
           onPress={() => router.push("./navigation")}
         >
           Open Navigation Showcase
