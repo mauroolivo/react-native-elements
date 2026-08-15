@@ -2,16 +2,12 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
-import { Button, HStack, Screen, Text } from "@/components/ui";
-import { languageFlags } from "@/i18n";
-import { useLanguage } from "@/i18n/LanguageProvider";
-import { useTheme } from "@/theme/ThemeProvider";
+import { Button, Screen } from "@/components/ui";
+import { appIcons, AppSymbolIcon } from "@/theme/icons/AppIcons";
 
 export default function Index() {
   const router = useRouter();
   const { t } = useTranslation("settings");
-  const { language } = useLanguage();
-  const { colors } = useTheme();
 
   return (
     <Screen>
@@ -20,13 +16,9 @@ export default function Index() {
           fullWidth={true}
           size="lg"
           onPress={() => router.push("/language")}
+          leadingIcon={<AppSymbolIcon name={appIcons.language} />}
         >
-          <HStack className="gap-sm">
-            <Text>{languageFlags[language]}</Text>
-            <Text style={{ color: colors.primaryForeground }}>
-              {t("language.title")}
-            </Text>
-          </HStack>
+          {t("language.title")}
         </Button>
         <Button
           fullWidth={true}
