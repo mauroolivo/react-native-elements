@@ -1,0 +1,22 @@
+{
+  "title": "Asetukset",
+  "description": "Muokkaa sovelluksen asetuksia.",
+  "appearance": {
+    "title": "Ulkoasu",
+    "system": "Järjestelmä",
+    "light": "Vaalea",
+    "dark": "Tumma"
+  },
+  "language": {
+    "title": "Kieli",
+    "systemDefault": "Käytä laitteen kieltä",
+    "options": {
+      "en-US": "Englanti",
+      "it-IT": "Italia",
+      "es-ES": "Espanja",
+      "ru-RU": "Venäjä",
+      "sv-SE": "Ruotsi",
+      "fi-FI": "Suomi"
+    }
+  }
+}

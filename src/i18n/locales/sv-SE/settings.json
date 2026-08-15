@@ -1,0 +1,22 @@
+{
+  "title": "Inställningar",
+  "description": "Anpassa ditt program.",
+  "appearance": {
+    "title": "Utseende",
+    "system": "System",
+    "light": "Ljust",
+    "dark": "Mörkt"
+  },
+  "language": {
+    "title": "Språk",
+    "systemDefault": "Använd enhetens språk",
+    "options": {
+      "en-US": "Engelska",
+      "it-IT": "Italienska",
+      "es-ES": "Spanska",
+      "ru-RU": "Ryska",
+      "sv-SE": "Svenska",
+      "fi-FI": "Finska"
+    }
+  }
+}

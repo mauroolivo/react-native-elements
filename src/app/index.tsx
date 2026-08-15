@@ -2,12 +2,14 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
-import { Button, Screen } from "@/components/ui";
-import { appIcons, AppSymbolIcon } from "@/theme/icons/AppIcons";
+import { Button, Screen, Text } from "@/components/ui";
+import { localeFlags } from "@/i18n";
+import { useLanguage } from "@/i18n/LanguageProvider";
 
 export default function Index() {
   const router = useRouter();
   const { t } = useTranslation("settings");
+  const { locale } = useLanguage();
 
   return (
     <Screen>
@@ -16,7 +18,7 @@ export default function Index() {
           fullWidth={true}
           size="lg"
           onPress={() => router.push("/language")}
-          leadingIcon={<AppSymbolIcon name={appIcons.language} />}
+          leadingIcon={<Text>{localeFlags[locale]}</Text>}
         >
           {t("language.title")}
         </Button>

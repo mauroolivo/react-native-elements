@@ -11,9 +11,12 @@
     "title": "Lingua",
     "systemDefault": "Usa la lingua del dispositivo",
     "options": {
-      "en": "Inglese",
-      "it": "Italiano",
-      "es": "Spagnolo"
+      "en-US": "Inglese",
+      "it-IT": "Italiano",
+      "es-ES": "Spagnolo",
+      "ru-RU": "Russo",
+      "sv-SE": "Svedese",
+      "fi-FI": "Finlandese"
     }
   }
 }

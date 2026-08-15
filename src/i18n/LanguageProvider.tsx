@@ -1,26 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-    createContext,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-    type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
 } from "react";
 import { I18nextProvider } from "react-i18next";
 
 import i18nextInstance, {
-    changeAppLanguage,
-    getDeviceLanguage,
-    type SupportedLanguage,
+  changeAppLanguage,
+  getDeviceLocale,
+  isSupportedLocale,
+  type SupportedLocale,
 } from "./index";
 
 const LANGUAGE_STORAGE_KEY = "app:language";
 
 type LanguageContextValue = {
-  language: SupportedLanguage;
-  languagePreference: SupportedLanguage | null;
-  setLanguage: (language: SupportedLanguage) => Promise<void>;
+  locale: SupportedLocale;
+  localePreference: SupportedLocale | null;
+  setLocale: (locale: SupportedLocale) => Promise<void>;
   resetToSystemLanguage: () => Promise<void>;
 };
 
@@ -31,18 +32,13 @@ type LanguageProviderProps = {
   onLanguageReady?: () => void;
 };
 
-function isSupportedLanguage(value: string | null): value is SupportedLanguage {
-  return value === "en" || value === "it" || value === "es";
-}
-
 export function LanguageProvider({
   children,
   onLanguageReady,
 }: LanguageProviderProps) {
-  const [language, setLanguageState] =
-    useState<SupportedLanguage>(getDeviceLanguage());
-  const [languagePreference, setLanguagePreference] =
-    useState<SupportedLanguage | null>(null);
+  const [locale, setLocaleState] = useState<SupportedLocale>(getDeviceLocale());
+  const [localePreference, setLocalePreference] =
+    useState<SupportedLocale | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
@@ -52,10 +48,10 @@ export function LanguageProvider({
       try {
         const storedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
 
-        if (isMounted && isSupportedLanguage(storedLanguage)) {
+        if (isMounted && isSupportedLocale(storedLanguage)) {
           await changeAppLanguage(storedLanguage);
-          setLanguageState(storedLanguage);
-          setLanguagePreference(storedLanguage);
+          setLocaleState(storedLanguage);
+          setLocalePreference(storedLanguage);
         }
       } finally {
         if (isMounted) {
@@ -79,23 +75,23 @@ export function LanguageProvider({
 
   const value = useMemo<LanguageContextValue>(
     () => ({
-      language,
-      languagePreference,
-      setLanguage: async (nextLanguage) => {
-        await changeAppLanguage(nextLanguage);
-        await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
-        setLanguageState(nextLanguage);
-        setLanguagePreference(nextLanguage);
+      locale,
+      localePreference,
+      setLocale: async (nextLocale) => {
+        await changeAppLanguage(nextLocale);
+        await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLocale);
+        setLocaleState(nextLocale);
+        setLocalePreference(nextLocale);
       },
       resetToSystemLanguage: async () => {
-        const deviceLanguage = getDeviceLanguage();
-        await changeAppLanguage(deviceLanguage);
+        const deviceLocale = getDeviceLocale();
+        await changeAppLanguage(deviceLocale);
         await AsyncStorage.removeItem(LANGUAGE_STORAGE_KEY);
-        setLanguageState(deviceLanguage);
-        setLanguagePreference(null);
+        setLocaleState(deviceLocale);
+        setLocalePreference(null);
       },
     }),
-    [language, languagePreference],
+    [locale, localePreference],
   );
 
   if (!isHydrated) {
