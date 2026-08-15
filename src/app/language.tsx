@@ -71,7 +71,14 @@ function getCurrencySymbol(locale: SupportedLocale, currency: string) {
     // fallback below
   }
 
-  return currency === "EUR" ? "€" : currency;
+  const fallbackSymbols: Record<string, string> = {
+    EUR: "€",
+    RUB: "₽",
+    USD: "$",
+    SEK: "kr",
+  };
+
+  return fallbackSymbols[currency] ?? currency;
 }
 
 export default function Language() {
@@ -147,24 +154,21 @@ export default function Language() {
             <View className="min-w-full rounded-control border border-border bg-background p-sm">
               <Text variant="titleMd">Current locale data</Text>
 
-              <Text variant="labelSm" tone="muted" className="mt-sm">
-                {`[{`}
-              </Text>
-
-              {localeRows.map(({ label, value }, index) => (
-                <View key={label} className="flex-row items-start gap-sm py-1">
-                  <Text variant="bodySm" tone="muted" className="w-36">
-                    {`  "${label}":`}
-                  </Text>
-                  <Text variant="bodySm" numberOfLines={2} className="flex-1">
-                    {`"${String(value)}"${index < localeRows.length - 1 ? "," : ""}`}
-                  </Text>
-                </View>
-              ))}
-
-              <Text variant="labelSm" tone="muted">
-                {`}]`}
-              </Text>
+              <View className="mt-sm gap-1">
+                {localeRows.map(({ label, value }) => (
+                  <View
+                    key={label}
+                    className="flex-row items-start gap-sm py-1"
+                  >
+                    <Text variant="bodySm" tone="muted" className="w-40">
+                      {`${label}:`}
+                    </Text>
+                    <Text variant="bodySm" className="flex-1">
+                      {String(value)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
             </View>
           </ScrollView>
         </Stack>
