@@ -46,6 +46,13 @@ export default function Index() {
         <Button
           fullWidth={true}
           size="lg"
+          onPress={() => router.push("/rest-operations")}
+        >
+          Open Rest Operations
+        </Button>
+        <Button
+          fullWidth={true}
+          size="lg"
           variant="secondary"
           onPress={() => router.push("/loaderSheet")}
         >

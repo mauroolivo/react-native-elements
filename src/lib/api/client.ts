@@ -33,7 +33,7 @@ export class ApiClient {
       url.searchParams.set(key, String(value));
     });
 
-    return url.toString().replace(`${this.baseUrl}/`, `${this.baseUrl}`);
+    return url.toString();
   }
 
   private async parseError(response: Response): Promise<ApiFailure> {
@@ -70,6 +70,7 @@ export class ApiClient {
     options: RequestOptions = {},
   ): Promise<ApiResult<T>> {
     const { method = "GET", body, headers, params, ...rest } = options;
+    const url = this.buildUrl(endpoint, params);
 
     const requestHeaders = new Headers(this.defaultHeaders);
     if (headers) {
@@ -82,17 +83,24 @@ export class ApiClient {
       requestHeaders.set("Content-Type", "application/json");
     }
 
-    const response = await fetch(this.buildUrl(endpoint, params), {
-      ...rest,
-      method,
-      headers: requestHeaders,
-      body:
-        body === undefined
-          ? undefined
-          : typeof body === "string"
-            ? body
-            : JSON.stringify(body),
-    });
+    let response: Response;
+
+    try {
+      response = await fetch(url, {
+        ...rest,
+        method,
+        headers: requestHeaders,
+        body:
+          body === undefined
+            ? undefined
+            : typeof body === "string"
+              ? body
+              : JSON.stringify(body),
+      });
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error);
+      throw new Error(`${method} ${url} failed: ${reason}`);
+    }
 
     if (!response.ok) {
       return this.parseError(response);

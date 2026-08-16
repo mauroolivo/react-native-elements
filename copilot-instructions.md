@@ -23,6 +23,13 @@
 - Keep query keys descriptive and stable; use consistent patterns for list/detail fetches and invalidations.
 - Put data-fetching logic in reusable hooks or service modules rather than inside components.
 - Handle loading, error, and empty states explicitly in the UI.
+- For remote resources, keep responsibilities separated by feature:
+	- `features/<resource>/api.ts` owns the backend contract, endpoint paths, request types, and HTTP functions.
+	- `features/<resource>/hooks.ts` owns TanStack Query hooks, query keys, pagination, cache behavior, and conversion of API failures into thrown query errors.
+	- `features/<resource>/schema.ts` owns Zod validation for form values and server responses.
+	- Screens own presentation and user interaction only: loading, empty, error, refresh, list rendering, and navigation.
+- Prefer a feature-specific hook when a screen contains reusable query behavior such as pagination, sorting, filtering, or cache invalidation.
+- Keep UI concerns out of hooks and raw HTTP details out of screens. Query keys must include every parameter that affects the result.
 - Prefer optimistic updates and targeted invalidations over broad refetches when appropriate.
 - Do not store server state in Redux when React Query already owns the data lifecycle; Redux should be reserved for app-level state, not remote cache state.
 
