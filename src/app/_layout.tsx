@@ -36,52 +36,7 @@ function RootNavigator() {
           headerTintColor: colors.text,
           headerTitleStyle: { color: colors.text },
         }}
-      >
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.background },
-            headerStyle: { backgroundColor: colors.background },
-            headerTintColor: colors.text,
-            headerTitleStyle: { color: colors.text },
-          }}
-        />
-        <Stack.Screen
-          name="legal"
-          options={{
-            headerShown: true,
-            title: "Legal",
-            contentStyle: { backgroundColor: colors.background },
-            headerStyle: { backgroundColor: colors.background },
-            headerTintColor: colors.text,
-            headerTitleStyle: { color: colors.text },
-          }}
-        />
-        <Stack.Screen
-          name="language"
-          options={{
-            headerShown: true,
-            title: "Language",
-            contentStyle: { backgroundColor: colors.background },
-            headerStyle: { backgroundColor: colors.background },
-            headerTintColor: colors.text,
-            headerTitleStyle: { color: colors.text },
-          }}
-        />
-        <Stack.Screen
-          name="loaderSheet"
-          options={{
-            headerShown: false,
-            presentation: "formSheet",
-            sheetAllowedDetents: [0.35, 0.6],
-            sheetInitialDetentIndex: 0,
-            sheetGrabberVisible: true,
-            sheetCornerRadius: 24,
-            contentStyle: { backgroundColor: colors.background },
-          }}
-        />
-      </Stack>
+      />
     </>
   );
 }
