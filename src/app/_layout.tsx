@@ -4,6 +4,7 @@ import { LoadingOverlayProvider } from "@/components/ui";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { ThemeProvider, useTheme } from "@/theme/ThemeProvider";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -107,6 +108,16 @@ function getAppRootStackState(
   return stackStates[0];
 }
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 30_000,
+      gcTime: 5 * 60_000,
+    },
+  },
+});
+
 function RootNavigator() {
   const { colors, resolvedTheme } = useTheme();
 
@@ -116,7 +127,6 @@ function RootNavigator() {
       <Stack
         screenOptions={{
           headerShown: false,
-          // contentStyle: { backgroundColor: colors.background },
           headerStyle: { backgroundColor: colors.background },
           headerTintColor: colors.text,
           headerTitleStyle: { color: colors.text },
@@ -167,26 +177,15 @@ function RootNavigator() {
           }}
         />
       </Stack>
-      {/* <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.background },
-          headerStyle: { backgroundColor: colors.background },
-          headerTintColor: colors.text,
-          headerTitleStyle: { color: colors.text },
-        }}
-      /> */}
     </>
   );
 }
 
-export default function RootLayout() {
-  const navigationRef = useNavigationContainerRef();
-
-  const handleAppReady = useCallback(() => {
-    void SplashScreen.hideAsync();
-  }, []);
-
+function NavigationLogger({
+  navigationRef,
+}: {
+  navigationRef: ReturnType<typeof useNavigationContainerRef>;
+}) {
   useEffect(() => {
     const logCurrentStack = () => {
       const rootState = navigationRef.getRootState();
@@ -231,18 +230,30 @@ export default function RootLayout() {
     };
 
     logCurrentStack();
-
     const unsubscribe = navigationRef.addListener("state", logCurrentStack);
 
     return unsubscribe;
   }, [navigationRef]);
 
+  return null;
+}
+
+export default function RootLayout() {
+  const navigationRef = useNavigationContainerRef();
+
+  const handleAppReady = useCallback(() => {
+    void SplashScreen.hideAsync();
+  }, []);
+
   return (
-    <ThemeProvider>
-      <LanguageProvider onLanguageReady={handleAppReady}>
-        <RootNavigator />
-        <LoadingOverlayProvider />
-      </LanguageProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <LanguageProvider onLanguageReady={handleAppReady}>
+          <RootNavigator />
+          <NavigationLogger navigationRef={navigationRef} />
+          <LoadingOverlayProvider />
+        </LanguageProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
