@@ -88,4 +88,6 @@
 - Follow the app’s theming, localization, and component abstractions instead of introducing one-off patterns.
 - Preserve the repo’s existing Expo architecture and keep new code aligned with the current stack and folder structure.
 - Use the repository-level instructions in adjacent config files as the source of truth for project-specific constraints.
+- If you find a useful pattern, rule, or project convention worth adding to this file while developing the app, ask me before updating it so we can keep the guidance intentional and aligned with the project.
+- When new libraries are installed or major architectural changes are introduced, ask me before adding new rules to this file so we can review the impact together.
 - If a task is ambiguous, choose the simplest correct solution that fits the current architecture and explains the tradeoff clearly when a larger refactor would be needed.
