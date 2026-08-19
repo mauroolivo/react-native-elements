@@ -40,6 +40,11 @@ export const appIcons = {
     android: "language",
     web: "language",
   },
+  plus: {
+    ios: "plus",
+    android: "add",
+    web: "add",
+  },
 } satisfies Record<string, AppSymbolName>;
 
 export const buttonIcons = {
@@ -67,6 +72,11 @@ export const buttonIcons = {
     ios: "square.and.pencil",
     android: "edit",
     web: "edit",
+  },
+  delete: {
+    ios: "trash",
+    android: "delete",
+    web: "delete",
   },
 } satisfies Record<string, AppSymbolName>;
 

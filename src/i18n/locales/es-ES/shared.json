@@ -6,5 +6,10 @@
   "language": "Idioma",
   "systemDefault": "Predeterminado del sistema",
   "loading": "Cargando...",
-  "saving": "Guardando..."
+  "saving": "Guardando...",
+  "delete": "Eliminar",
+  "deleting": "Eliminando...",
+  "editArticle": "Editar artículo",
+  "deleteArticleTitle": "Eliminar artículo",
+  "deleteArticleConfirm": "¿Eliminar {{title}}? Esta acción no se puede deshacer."
 }

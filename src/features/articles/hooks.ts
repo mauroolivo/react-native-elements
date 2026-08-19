@@ -1,16 +1,17 @@
 import {
-    useInfiniteQuery,
-    useMutation,
-    useQuery,
-    useQueryClient,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 
 import {
-    createArticle,
-    getArticle,
-    getArticles,
-    updateArticle,
-    type ArticleDraft,
+  createArticle,
+  deleteArticle,
+  getArticle,
+  getArticles,
+  updateArticle,
+  type ArticleDraft,
 } from "./api";
 
 export const ARTICLE_PAGE_SIZE = 10;
@@ -84,6 +85,28 @@ export function useSaveArticle() {
       await queryClient.invalidateQueries({ queryKey: ["articles", "list"] });
       await queryClient.invalidateQueries({
         queryKey: ["articles", "detail", article.id],
+      });
+    },
+  });
+}
+
+export function useDeleteArticle() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const result = await deleteArticle(id);
+
+      if (!result.ok) {
+        throw new Error(result.error);
+      }
+
+      return id;
+    },
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({ queryKey: ["articles", "list"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["articles", "detail", id],
       });
     },
   });

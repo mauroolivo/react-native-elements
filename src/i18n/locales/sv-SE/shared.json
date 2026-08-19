@@ -6,5 +6,10 @@
   "language": "Språk",
   "systemDefault": "Systemstandard",
   "loading": "Laddar...",
-  "saving": "Sparar..."
+  "saving": "Sparar...",
+  "delete": "Ta bort",
+  "deleting": "Tar bort...",
+  "editArticle": "Redigera artikel",
+  "deleteArticleTitle": "Ta bort artikel",
+  "deleteArticleConfirm": "Ta bort {{title}}? Åtgärden kan inte ångras."
 }

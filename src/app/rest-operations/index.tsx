@@ -1,17 +1,25 @@
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import {
-    ActivityIndicator,
-    FlatList,
-    RefreshControl,
-    View,
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  RefreshControl,
+  View,
 } from "react-native";
 
-import { Button, Card, Screen, Text } from "@/components/ui";
-import { useInfiniteArticles } from "@/features/articles/hooks";
+import { Button, Card, Screen, Text, withLoader } from "@/components/ui";
+import {
+  useDeleteArticle,
+  useInfiniteArticles,
+} from "@/features/articles/hooks";
+import { AppSymbolIcon, buttonIcons } from "@/theme/icons/AppIcons";
 
 export default function RestOperationsScreen() {
   const router = useRouter();
+  const { t } = useTranslation("shared");
   const articlesQuery = useInfiniteArticles();
+  const deleteArticleMutation = useDeleteArticle();
 
   const articles = articlesQuery.data?.pages.flat() ?? [];
   const isInitialLoading = articlesQuery.isPending && articles.length === 0;
@@ -19,7 +27,7 @@ export default function RestOperationsScreen() {
 
   if (isInitialLoading) {
     return (
-      <Screen>
+      <Screen edges={["left", "right", "bottom"]}>
         <StateView>
           <ActivityIndicator size="large" />
           <Text className="mt-md" tone="muted">
@@ -32,7 +40,7 @@ export default function RestOperationsScreen() {
 
   if (articlesQuery.isError && articles.length === 0) {
     return (
-      <Screen>
+      <Screen edges={["left", "right", "bottom"]}>
         <StateView>
           <Text variant="titleMd" tone="danger">
             Could not load articles
@@ -54,20 +62,8 @@ export default function RestOperationsScreen() {
   }
 
   return (
-    <Screen>
-      <View className="flex-1 px-lg pt-lg">
-        <View className="mb-lg flex-row items-center justify-between gap-md">
-          <View className="flex-1">
-            <Text variant="headlineMd">Rest Operations</Text>
-            <Text className="mt-xs" tone="muted">
-              Articles from the remote service
-            </Text>
-          </View>
-          <Button size="sm" onPress={() => router.push("/rest-operations/edit")}>
-            Add article
-          </Button>
-        </View>
-
+    <Screen edges={["left", "right", "bottom"]}>
+      <View className="flex-1 px-lg">
         <FlatList
           data={articles}
           showsVerticalScrollIndicator={true}
@@ -84,19 +80,52 @@ export default function RestOperationsScreen() {
               <Text className="mt-md" variant="labelSm" tone="muted">
                 {item.votes} votes
               </Text>
-              <Button
-                className="mt-md"
-                size="sm"
-                variant="secondary"
-                onPress={() =>
-                  router.push({
-                    pathname: "/rest-operations/edit",
-                    params: { id: item.id },
-                  })
-                }
-              >
-                Edit article
-              </Button>
+              <View className="mt-md flex-row justify-end gap-sm">
+                <Button
+                  accessibilityLabel={t("editArticle")}
+                  size="sm"
+                  variant="secondary"
+                  className="px-sm"
+                  onPress={() =>
+                    router.push({
+                      pathname: "/rest-operations/edit",
+                      params: { id: item.id },
+                    })
+                  }
+                >
+                  <AppSymbolIcon name={buttonIcons.edit} size={18} />
+                </Button>
+                <Button
+                  accessibilityLabel={t("delete")}
+                  size="sm"
+                  variant="danger"
+                  className="px-sm"
+                  disabled={
+                    deleteArticleMutation.isPending &&
+                    deleteArticleMutation.variables === item.id
+                  }
+                  onPress={() => {
+                    Alert.alert(
+                      t("deleteArticleTitle"),
+                      t("deleteArticleConfirm", { title: item.title }),
+                      [
+                        { text: t("cancel"), style: "cancel" },
+                        {
+                          text: t("delete"),
+                          style: "destructive",
+                          onPress: () => {
+                            void withLoader(t("deleting"), () =>
+                              deleteArticleMutation.mutateAsync(item.id),
+                            );
+                          },
+                        },
+                      ],
+                    );
+                  }}
+                >
+                  <AppSymbolIcon name={buttonIcons.delete} size={18} />
+                </Button>
+              </View>
             </Card>
           )}
           ListEmptyComponent={

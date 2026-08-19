@@ -6,5 +6,10 @@
   "language": "Язык",
   "systemDefault": "По умолчанию системы",
   "loading": "Загрузка...",
-  "saving": "Сохранение..."
+  "saving": "Сохранение...",
+  "delete": "Удалить",
+  "deleting": "Удаление...",
+  "editArticle": "Изменить статью",
+  "deleteArticleTitle": "Удалить статью",
+  "deleteArticleConfirm": "Удалить {{title}}? Это действие нельзя отменить."
 }

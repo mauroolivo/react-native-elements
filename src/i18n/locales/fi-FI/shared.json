@@ -6,5 +6,10 @@
   "language": "Kieli",
   "systemDefault": "Järjestelmän oletus",
   "loading": "Ladataan...",
-  "saving": "Tallennetaan..."
+  "saving": "Tallennetaan...",
+  "delete": "Poista",
+  "deleting": "Poistetaan...",
+  "editArticle": "Muokkaa artikkelia",
+  "deleteArticleTitle": "Poista artikkeli",
+  "deleteArticleConfirm": "Poistetaanko {{title}}? Tätä toimintoa ei voi kumota."
 }

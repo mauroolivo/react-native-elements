@@ -6,5 +6,10 @@
   "language": "Language",
   "systemDefault": "System default",
   "loading": "Loading...",
-  "saving": "Saving..."
+  "saving": "Saving...",
+  "delete": "Delete",
+  "deleting": "Deleting...",
+  "editArticle": "Edit article",
+  "deleteArticleTitle": "Delete article",
+  "deleteArticleConfirm": "Delete {{title}}? This action cannot be undone."
 }
