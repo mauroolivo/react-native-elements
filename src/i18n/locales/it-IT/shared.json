@@ -5,5 +5,6 @@
   "settings": "Impostazioni",
   "language": "Lingua",
   "systemDefault": "Predefinita del sistema",
-  "loading": "Caricamento..."
+  "loading": "Caricamento...",
+  "saving": "Salvataggio..."
 }

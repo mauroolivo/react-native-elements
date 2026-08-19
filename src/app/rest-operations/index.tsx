@@ -63,7 +63,7 @@ export default function RestOperationsScreen() {
               Articles from the remote service
             </Text>
           </View>
-          <Button size="sm" onPress={() => router.push("/rest-operations/new")}>
+          <Button size="sm" onPress={() => router.push("/rest-operations/edit")}>
             Add article
           </Button>
         </View>
@@ -84,6 +84,19 @@ export default function RestOperationsScreen() {
               <Text className="mt-md" variant="labelSm" tone="muted">
                 {item.votes} votes
               </Text>
+              <Button
+                className="mt-md"
+                size="sm"
+                variant="secondary"
+                onPress={() =>
+                  router.push({
+                    pathname: "/rest-operations/edit",
+                    params: { id: item.id },
+                  })
+                }
+              >
+                Edit article
+              </Button>
             </Card>
           )}
           ListEmptyComponent={

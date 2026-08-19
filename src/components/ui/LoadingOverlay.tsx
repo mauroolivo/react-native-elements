@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Animated, Easing, Modal, Text as RNText, View } from "react-native";
 
 import { useTheme } from "@/theme/ThemeProvider";
@@ -6,7 +6,6 @@ import { useTheme } from "@/theme/ThemeProvider";
 type OverlayStore = {
   visible: boolean;
   text: string;
-  activeProviderId: number | null;
 };
 
 type Listener = (store: OverlayStore) => void;
@@ -16,47 +15,18 @@ const DEFAULT_TEXT = "Loading...";
 let state: OverlayStore = {
   visible: false,
   text: DEFAULT_TEXT,
-  activeProviderId: null,
 };
 
 let listeners: Listener[] = [];
-let providerStack: number[] = [];
-let nextProviderId = 1;
 
 function emit() {
   listeners.forEach((listener) => listener(state));
-}
-
-function registerProvider(): number {
-  const providerId = nextProviderId;
-  nextProviderId += 1;
-
-  providerStack.push(providerId);
-  state = {
-    ...state,
-    activeProviderId: providerId,
-  };
-  emit();
-
-  return providerId;
-}
-
-function unregisterProvider(providerId: number) {
-  providerStack = providerStack.filter((id) => id !== providerId);
-
-  state = {
-    ...state,
-    activeProviderId:
-      providerStack.length > 0 ? providerStack[providerStack.length - 1] : null,
-  };
-  emit();
 }
 
 export function show(text: string = DEFAULT_TEXT) {
   state = {
     visible: true,
     text,
-    activeProviderId: state.activeProviderId,
   };
   emit();
 }
@@ -117,34 +87,16 @@ export const loadingOverlay = {
 
 export function LoadingOverlayProvider() {
   const { colors, resolvedTheme } = useTheme();
-  const providerIdRef = useRef<number | null>(null);
   const [rotationValue] = useState(() => new Animated.Value(0));
   const [localState, setLocalState] = useState<OverlayStore>(state);
-  const [isActiveProvider, setIsActiveProvider] = useState(false);
 
   useEffect(
     () =>
       subscribe((nextState) => {
         setLocalState(nextState);
-
-        const currentProviderId = providerIdRef.current;
-        setIsActiveProvider(
-          currentProviderId !== null &&
-            nextState.activeProviderId === currentProviderId,
-        );
       }),
     [],
   );
-
-  useEffect(() => {
-    const currentProviderId = registerProvider();
-    providerIdRef.current = currentProviderId;
-
-    return () => {
-      unregisterProvider(currentProviderId);
-      providerIdRef.current = null;
-    };
-  }, []);
 
   const ringRotation = useMemo(
     () =>
@@ -156,7 +108,7 @@ export function LoadingOverlayProvider() {
   );
 
   useEffect(() => {
-    if (!(localState.visible && isActiveProvider)) {
+    if (!localState.visible) {
       rotationValue.stopAnimation();
       rotationValue.setValue(0);
       return;
@@ -178,11 +130,11 @@ export function LoadingOverlayProvider() {
       rotationValue.stopAnimation();
       rotationValue.setValue(0);
     };
-  }, [isActiveProvider, localState.visible, rotationValue]);
+  }, [localState.visible, rotationValue]);
 
   return (
     <Modal
-      visible={localState.visible && isActiveProvider}
+      visible={localState.visible}
       transparent
       animationType="fade"
       statusBarTranslucent

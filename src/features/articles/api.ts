@@ -50,6 +50,10 @@ export async function getArticles(
   return mockApiClient.request<Article[]>(articleEndpoints.list, { params });
 }
 
+export async function getArticle(id: string): Promise<ApiResult<Article>> {
+  return mockApiClient.request<Article>(articleEndpoints.detail(id));
+}
+
 export async function createArticle(
   payload: ArticleDraft,
 ): Promise<ApiResult<Article>> {

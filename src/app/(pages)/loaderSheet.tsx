@@ -1,9 +1,9 @@
 import {
-    Button,
-    LoadingOverlayProvider,
-    Screen,
-    Text,
-    withLoader,
+  Button,
+  LoadingOverlayProvider,
+  Screen,
+  Text,
+  withLoader,
 } from "@/components/ui";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
