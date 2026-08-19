@@ -10,6 +10,7 @@
   "delete": "Elimina",
   "deleting": "Eliminazione...",
   "editArticle": "Modifica articolo",
+  "articleDetails": "Visualizza dettagli articolo",
   "deleteArticleTitle": "Elimina articolo",
   "deleteArticleConfirm": "Eliminare {{title}}? Questa azione non può essere annullata."
 }

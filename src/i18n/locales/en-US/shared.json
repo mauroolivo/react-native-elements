@@ -10,6 +10,7 @@
   "delete": "Delete",
   "deleting": "Deleting...",
   "editArticle": "Edit article",
+  "articleDetails": "View article details",
   "deleteArticleTitle": "Delete article",
   "deleteArticleConfirm": "Delete {{title}}? This action cannot be undone."
 }

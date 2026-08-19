@@ -10,6 +10,7 @@
   "delete": "Удалить",
   "deleting": "Удаление...",
   "editArticle": "Изменить статью",
+  "articleDetails": "Подробнее о статье",
   "deleteArticleTitle": "Удалить статью",
   "deleteArticleConfirm": "Удалить {{title}}? Это действие нельзя отменить."
 }

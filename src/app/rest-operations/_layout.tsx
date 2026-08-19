@@ -59,6 +59,12 @@ export default function RestOperationsLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="detail"
+        options={{
+          title: "Article details",
+        }}
+      />
     </Stack>
   );
 }

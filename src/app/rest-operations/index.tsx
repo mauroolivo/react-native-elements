@@ -74,13 +74,24 @@ export default function RestOperationsScreen() {
               <Text className="mt-xs" tone="muted">
                 {item.subtitle}
               </Text>
-              <Text className="mt-sm" numberOfLines={3}>
-                {item.desc}
-              </Text>
               <Text className="mt-md" variant="labelSm" tone="muted">
                 {item.votes} votes
               </Text>
               <View className="mt-md flex-row justify-end gap-sm">
+                <Button
+                  accessibilityLabel={t("articleDetails")}
+                  size="sm"
+                  variant="secondary"
+                  className="px-sm"
+                  onPress={() =>
+                    router.push({
+                      pathname: "./detail",
+                      params: { id: item.id },
+                    })
+                  }
+                >
+                  <AppSymbolIcon name={buttonIcons.disclosure} size={18} />
+                </Button>
                 <Button
                   accessibilityLabel={t("editArticle")}
                   size="sm"
