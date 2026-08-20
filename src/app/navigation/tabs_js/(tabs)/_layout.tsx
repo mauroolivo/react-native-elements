@@ -1,7 +1,7 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { Platform, StyleSheet, Text, View } from "react-native";
 
+import { AppSymbolIcon, appIcons } from "@/theme/icons/AppIcons";
 import { useTheme } from "@/theme/ThemeProvider";
 
 import {
@@ -40,7 +40,7 @@ function TabsContent() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <AppSymbolIcon name={appIcons.home} size={28} tintColor={color} />
           ),
         }}
       />
@@ -49,7 +49,11 @@ function TabsContent() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
+            <AppSymbolIcon
+              name={appIcons.settings}
+              size={28}
+              tintColor={color}
+            />
           ),
         }}
       />
@@ -69,10 +73,10 @@ function TabsContent() {
               ),
           tabBarIcon: ({ color }) => (
             <View>
-              <FontAwesome
+              <AppSymbolIcon
                 size={28}
-                name="bell"
-                color={hasNotifications ? color : colors.textMuted}
+                name={appIcons.notifications}
+                tintColor={hasNotifications ? color : colors.textMuted}
               />
               {hasNotifications ? (
                 <View style={styles.badge}>
