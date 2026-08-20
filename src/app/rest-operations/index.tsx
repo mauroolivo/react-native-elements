@@ -85,7 +85,7 @@ export default function RestOperationsScreen() {
                   className="px-sm"
                   onPress={() =>
                     router.push({
-                      pathname: "./detail",
+                      pathname: "/rest-operations/detail",
                       params: { id: item.id },
                     })
                   }
