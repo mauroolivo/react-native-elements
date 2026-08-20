@@ -1,3 +1,12 @@
+// Summary of best practices
+// Use plain unitless numbers everywhere; don't hand-roll density math.
+// Leave allowFontScaling on by default; use maxFontSizeMultiplier to bound it where layout
+// would break, rather than disabling it.
+// Build flexible layouts (minHeight, flex, numberOfLines + ellipsizeMode as a fallback) that
+// tolerate larger text rather than fixed pixel boxes.
+// If you want responsive-to-screen-size design, add a moderate scale utility as a separate
+// concern from accessibility scaling.
+
 export const typography = {
   headlineLg: {
     fontSize: 36,

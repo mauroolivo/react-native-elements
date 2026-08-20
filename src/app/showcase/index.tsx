@@ -1,5 +1,5 @@
 import { Stack, useRouter, type Href } from "expo-router";
-import { Pressable, ScrollView, View } from "react-native";
+import { PixelRatio, Pressable, ScrollView, View } from "react-native";
 
 import { Button, Card, Cell, HStack, Screen, Text } from "../../components/ui";
 import { type ThemeMode } from "../../theme";
@@ -107,6 +107,7 @@ const themeModeOptions: { mode: ThemeMode; label: string }[] = [
 export default function ShowcaseIndex() {
   const router = useRouter();
   const { resolvedTheme, setThemeMode, themeMode } = useTheme();
+  const fontScale = PixelRatio.getFontScale();
 
   return (
     <Screen edges={["left", "right", "bottom"]}>
@@ -121,6 +122,10 @@ export default function ShowcaseIndex() {
         <View className="gap-xs pb-sm">
           <Text variant="headlineLg" tone="primary">
             Showcase Index
+          </Text>
+
+          <Text tone="success">
+            PixelRatio.getFontScale(): {fontScale.toFixed(2)}
           </Text>
           <Text tone="muted">
             Complete roadmap of design system showcase screens.
