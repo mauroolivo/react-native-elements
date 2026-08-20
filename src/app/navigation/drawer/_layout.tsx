@@ -34,7 +34,7 @@ function ThemedDrawerContent(props: DrawerContentComponentProps) {
       >
         <DrawerItem
           label="Exit"
-          onPress={() => router.replace("/navigation")}
+          onPress={() => router.dismiss()}
           icon={({ color, size }) => (
             <AppSymbolIcon
               name={appIcons.close}
