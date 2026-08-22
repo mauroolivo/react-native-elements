@@ -1,5 +1,9 @@
 import { NativeModule, requireNativeModule } from 'expo';
 
-declare class DeviceDiagnosticsModule extends NativeModule<{}> {}
+import type { DevicePlatformName } from './DeviceDiagnostics.types';
+
+declare class DeviceDiagnosticsModule extends NativeModule {
+	getPlatformName(): DevicePlatformName;
+}
 
 export default requireNativeModule<DeviceDiagnosticsModule>('DeviceDiagnostics');

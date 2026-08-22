@@ -6,5 +6,9 @@ import expo.modules.kotlin.modules.ModuleDefinition
 class DeviceDiagnosticsModule : Module() {
   override fun definition() = ModuleDefinition {
     Name("DeviceDiagnostics")
+
+    Function("getPlatformName") {
+      "android"
+    }
   }
 }

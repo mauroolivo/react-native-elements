@@ -1,1 +1,1 @@
-// Define your exported module types here.
+export type DevicePlatformName = "ios" | "android";
