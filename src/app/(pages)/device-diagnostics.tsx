@@ -1,17 +1,23 @@
 import { Stack } from "expo-router";
 import { Platform, View } from "react-native";
 
-import type { DevicePlatformName } from "../../../modules/device-diagnostics/src/DeviceDiagnostics.types";
+import type {
+  DeviceInfo,
+  DevicePlatformName,
+} from "../../../modules/device-diagnostics/src/DeviceDiagnostics.types";
 import DeviceDiagnosticsModule from "../../../modules/device-diagnostics/src/DeviceDiagnosticsModule";
 import { Screen, Text } from "../../components/ui";
 
 export default function DeviceDiagnosticsScreen() {
   let nativePlatformName: DevicePlatformName | "unavailable" = "unavailable";
+  let nativeDeviceInfo: DeviceInfo | null = null;
 
   try {
     nativePlatformName = DeviceDiagnosticsModule.getPlatformName();
+    nativeDeviceInfo = DeviceDiagnosticsModule.getDeviceInfo();
   } catch {
     nativePlatformName = "unavailable";
+    nativeDeviceInfo = null;
   }
 
   return (
@@ -26,12 +32,18 @@ export default function DeviceDiagnosticsScreen() {
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Device Diagnostics</Text>
         <Text tone="muted">
-          Stage 1 adds a synchronous native call from JavaScript to
-          Swift/Kotlin.
+          Stage 2 returns structured native data from Swift/Kotlin to
+          JavaScript.
         </Text>
         <Text>Module: {DeviceDiagnosticsModule ? "loaded" : "missing"}</Text>
         <Text>React Native Platform.OS: {Platform.OS}</Text>
         <Text>Native getPlatformName(): {nativePlatformName}</Text>
+        <Text>
+          Native getDeviceInfo():{" "}
+          {nativeDeviceInfo
+            ? `${nativeDeviceInfo.platform} | ${nativeDeviceInfo.model} | ${nativeDeviceInfo.systemVersion}`
+            : "unavailable"}
+        </Text>
       </View>
     </Screen>
   );

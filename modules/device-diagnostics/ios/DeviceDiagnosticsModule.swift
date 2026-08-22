@@ -1,4 +1,5 @@
 import ExpoModulesCore
+import UIKit
 
 public class DeviceDiagnosticsModule: Module {
   public func definition() -> ModuleDefinition {
@@ -6,6 +7,15 @@ public class DeviceDiagnosticsModule: Module {
 
     Function("getPlatformName") {
       "ios"
+    }
+
+    Function("getDeviceInfo") {
+      let device = UIDevice.current
+      return [
+        "platform": "ios",
+        "model": device.model,
+        "systemVersion": device.systemVersion
+      ]
     }
   }
 }
