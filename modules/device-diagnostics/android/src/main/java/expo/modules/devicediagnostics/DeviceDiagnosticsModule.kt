@@ -2,6 +2,8 @@ package expo.modules.devicediagnostics
 
 import android.content.Context
 import android.os.Build
+import android.os.Environment
+import android.os.StatFs
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -63,6 +65,16 @@ class DeviceDiagnosticsModule : Module() {
                 @Suppress("DEPRECATION")
                 vibrator.vibrate(options.duration)
             }
+        }
+
+        AsyncFunction("getAvailableDiskSpace") {
+            val statFs = StatFs(Environment.getDataDirectory().path)
+            val availableBytes = statFs.availableBytes
+            if (availableBytes <= 0L) {
+                throw IllegalStateException("Available disk space is unavailable.")
+            }
+
+            mapOf("availableBytes" to availableBytes)
         }
     }
 }

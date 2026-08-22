@@ -10,3 +10,7 @@ export type VibrationOptions = {
   duration: number;
   intensity: number;
 };
+
+export type DiskSpaceInfo = {
+  availableBytes: number;
+};

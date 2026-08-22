@@ -5,6 +5,7 @@ import { Platform, View } from "react-native";
 import type {
   DeviceInfo,
   DevicePlatformName,
+  DiskSpaceInfo,
 } from "../../../modules/device-diagnostics/src/DeviceDiagnostics.types";
 import DeviceDiagnosticsModule from "../../../modules/device-diagnostics/src/DeviceDiagnosticsModule";
 import { Button, Screen, Text } from "../../components/ui";
@@ -13,6 +14,12 @@ export default function DeviceDiagnosticsScreen() {
   const [vibrationStatus, setVibrationStatus] = useState<
     "idle" | "ok" | "error"
   >("idle");
+  const [diskSpaceStatus, setDiskSpaceStatus] = useState<
+    "idle" | "loading" | "ok" | "error"
+  >("idle");
+  const [diskSpaceInfo, setDiskSpaceInfo] = useState<DiskSpaceInfo | null>(
+    null,
+  );
 
   let nativePlatformName: DevicePlatformName | "unavailable" = "unavailable";
   let nativeDeviceInfo: DeviceInfo | null = null;
@@ -23,6 +30,18 @@ export default function DeviceDiagnosticsScreen() {
       setVibrationStatus("ok");
     } catch {
       setVibrationStatus("error");
+    }
+  };
+
+  const loadAvailableDiskSpace = async () => {
+    setDiskSpaceStatus("loading");
+    try {
+      const info = await DeviceDiagnosticsModule.getAvailableDiskSpace();
+      setDiskSpaceInfo(info);
+      setDiskSpaceStatus("ok");
+    } catch {
+      setDiskSpaceInfo(null);
+      setDiskSpaceStatus("error");
     }
   };
 
@@ -46,7 +65,7 @@ export default function DeviceDiagnosticsScreen() {
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Device Diagnostics</Text>
         <Text tone="muted">
-          Stage 3 sends typed options from JavaScript to Swift/Kotlin.
+          Stage 4 adds an async native call that resolves to structured data.
         </Text>
         <Text>Module: {DeviceDiagnosticsModule ? "loaded" : "missing"}</Text>
         <Text>React Native Platform.OS: {Platform.OS}</Text>
@@ -61,6 +80,14 @@ export default function DeviceDiagnosticsScreen() {
           Trigger Native Vibration
         </Button>
         <Text>Native vibrate(): {vibrationStatus}</Text>
+        <Button size="sm" onPress={loadAvailableDiskSpace}>
+          Load Available Disk Space
+        </Button>
+        <Text>Native getAvailableDiskSpace(): {diskSpaceStatus}</Text>
+        <Text>
+          Available bytes:{" "}
+          {diskSpaceInfo ? String(diskSpaceInfo.availableBytes) : "unavailable"}
+        </Text>
       </View>
     </Screen>
   );

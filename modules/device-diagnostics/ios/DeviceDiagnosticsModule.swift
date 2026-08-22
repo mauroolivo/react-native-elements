@@ -51,5 +51,14 @@ public class DeviceDiagnosticsModule: Module {
         }
       }
     }
+
+    AsyncFunction("getAvailableDiskSpace") { () throws -> [String: Int64] in
+      let attributes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
+      guard let freeSize = attributes[.systemFreeSize] as? NSNumber else {
+        throw Exception(name: "DiskSpaceUnavailableException", description: "Available disk space is unavailable.")
+      }
+
+      return ["availableBytes": freeSize.int64Value]
+    }
   }
 }
