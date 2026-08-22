@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { useState } from "react";
 import { Platform, View } from "react-native";
 
 import type {
@@ -6,11 +7,24 @@ import type {
   DevicePlatformName,
 } from "../../../modules/device-diagnostics/src/DeviceDiagnostics.types";
 import DeviceDiagnosticsModule from "../../../modules/device-diagnostics/src/DeviceDiagnosticsModule";
-import { Screen, Text } from "../../components/ui";
+import { Button, Screen, Text } from "../../components/ui";
 
 export default function DeviceDiagnosticsScreen() {
+  const [vibrationStatus, setVibrationStatus] = useState<
+    "idle" | "ok" | "error"
+  >("idle");
+
   let nativePlatformName: DevicePlatformName | "unavailable" = "unavailable";
   let nativeDeviceInfo: DeviceInfo | null = null;
+
+  const triggerVibration = (duration: number, intensity: number) => {
+    try {
+      DeviceDiagnosticsModule.vibrate({ duration, intensity });
+      setVibrationStatus("ok");
+    } catch {
+      setVibrationStatus("error");
+    }
+  };
 
   try {
     nativePlatformName = DeviceDiagnosticsModule.getPlatformName();
@@ -32,8 +46,7 @@ export default function DeviceDiagnosticsScreen() {
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Device Diagnostics</Text>
         <Text tone="muted">
-          Stage 2 returns structured native data from Swift/Kotlin to
-          JavaScript.
+          Stage 3 sends typed options from JavaScript to Swift/Kotlin.
         </Text>
         <Text>Module: {DeviceDiagnosticsModule ? "loaded" : "missing"}</Text>
         <Text>React Native Platform.OS: {Platform.OS}</Text>
@@ -44,6 +57,10 @@ export default function DeviceDiagnosticsScreen() {
             ? `${nativeDeviceInfo.platform} | ${nativeDeviceInfo.model} | ${nativeDeviceInfo.systemVersion}`
             : "unavailable"}
         </Text>
+        <Button size="sm" onPress={() => triggerVibration(500, 0.8)}>
+          Trigger Native Vibration
+        </Button>
+        <Text>Native vibrate(): {vibrationStatus}</Text>
       </View>
     </Screen>
   );

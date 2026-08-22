@@ -5,3 +5,8 @@ export type DeviceInfo = {
   model: string;
   systemVersion: string;
 };
+
+export type VibrationOptions = {
+  duration: number;
+  intensity: number;
+};
