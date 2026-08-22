@@ -14,3 +14,12 @@ export type VibrationOptions = {
 export type DiskSpaceInfo = {
   availableBytes: number;
 };
+
+export type BatteryStateChangedEvent = {
+  level: number;
+  isCharging: boolean;
+};
+
+export type DeviceDiagnosticsEvents = {
+  batteryStateChanged: (event: BatteryStateChangedEvent) => void;
+};

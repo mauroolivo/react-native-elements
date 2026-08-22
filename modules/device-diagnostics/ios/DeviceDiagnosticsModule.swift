@@ -7,8 +7,24 @@ struct VibrationOptions: Record {
 }
 
 public class DeviceDiagnosticsModule: Module {
+  private var batteryObservers: [NSObjectProtocol] = []
+
   public func definition() -> ModuleDefinition {
     Name("DeviceDiagnostics")
+
+    Events("batteryStateChanged")
+
+    OnStartObserving("batteryStateChanged") { [weak self] in
+      self?.startBatteryMonitoring()
+    }
+
+    OnStopObserving("batteryStateChanged") { [weak self] in
+      self?.stopBatteryMonitoring()
+    }
+
+    OnDestroy { [weak self] in
+      self?.stopBatteryMonitoring()
+    }
 
     Function("getPlatformName") {
       "ios"
@@ -60,5 +76,53 @@ public class DeviceDiagnosticsModule: Module {
 
       return ["availableBytes": freeSize.int64Value]
     }
+  }
+
+  private func startBatteryMonitoring() {
+    UIDevice.current.isBatteryMonitoringEnabled = true
+    guard batteryObservers.isEmpty else {
+      emitBatteryStateIfAvailable()
+      return
+    }
+
+    let center = NotificationCenter.default
+    let levelObserver = center.addObserver(
+      forName: UIDevice.batteryLevelDidChangeNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      self?.emitBatteryStateIfAvailable()
+    }
+    let stateObserver = center.addObserver(
+      forName: UIDevice.batteryStateDidChangeNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      self?.emitBatteryStateIfAvailable()
+    }
+
+    batteryObservers = [levelObserver, stateObserver]
+    emitBatteryStateIfAvailable()
+  }
+
+  private func stopBatteryMonitoring() {
+    let center = NotificationCenter.default
+    batteryObservers.forEach { center.removeObserver($0) }
+    batteryObservers.removeAll()
+    UIDevice.current.isBatteryMonitoringEnabled = false
+  }
+
+  private func emitBatteryStateIfAvailable() {
+    let device = UIDevice.current
+    let level = device.batteryLevel
+    guard level >= 0 else {
+      return
+    }
+
+    let isCharging = device.batteryState == .charging || device.batteryState == .full
+    sendEvent("batteryStateChanged", [
+      "level": level,
+      "isCharging": isCharging
+    ])
   }
 }

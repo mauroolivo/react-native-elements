@@ -1,8 +1,9 @@
 import { Stack } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 
 import type {
+  BatteryStateChangedEvent,
   DeviceInfo,
   DevicePlatformName,
   DiskSpaceInfo,
@@ -20,6 +21,8 @@ export default function DeviceDiagnosticsScreen() {
   const [diskSpaceInfo, setDiskSpaceInfo] = useState<DiskSpaceInfo | null>(
     null,
   );
+  const [batteryEvent, setBatteryEvent] =
+    useState<BatteryStateChangedEvent | null>(null);
 
   let nativePlatformName: DevicePlatformName | "unavailable" = "unavailable";
   let nativeDeviceInfo: DeviceInfo | null = null;
@@ -45,6 +48,19 @@ export default function DeviceDiagnosticsScreen() {
     }
   };
 
+  useEffect(() => {
+    const subscription = DeviceDiagnosticsModule.addListener(
+      "batteryStateChanged",
+      (event) => {
+        setBatteryEvent(event);
+      },
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   try {
     nativePlatformName = DeviceDiagnosticsModule.getPlatformName();
     nativeDeviceInfo = DeviceDiagnosticsModule.getDeviceInfo();
@@ -65,7 +81,7 @@ export default function DeviceDiagnosticsScreen() {
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Device Diagnostics</Text>
         <Text tone="muted">
-          Stage 4 adds an async native call that resolves to structured data.
+          Stage 5 emits native battery updates and receives them in JavaScript.
         </Text>
         <Text>Module: {DeviceDiagnosticsModule ? "loaded" : "missing"}</Text>
         <Text>React Native Platform.OS: {Platform.OS}</Text>
@@ -87,6 +103,12 @@ export default function DeviceDiagnosticsScreen() {
         <Text>
           Available bytes:{" "}
           {diskSpaceInfo ? String(diskSpaceInfo.availableBytes) : "unavailable"}
+        </Text>
+        <Text>
+          Native batteryStateChanged():{" "}
+          {batteryEvent
+            ? `level=${batteryEvent.level.toFixed(2)} charging=${batteryEvent.isCharging ? "true" : "false"}`
+            : "waiting for event"}
         </Text>
       </View>
     </Screen>
