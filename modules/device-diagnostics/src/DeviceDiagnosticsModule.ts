@@ -13,6 +13,8 @@ declare class DeviceDiagnosticsModule extends NativeModule<DeviceDiagnosticsEven
   getDeviceInfo(): DeviceInfo;
   vibrate(options: VibrationOptions): void;
   getAvailableDiskSpace(): Promise<DiskSpaceInfo>;
+  startMonitoring(): void;
+  stopMonitoring(): void;
 }
 
 export default requireNativeModule<DeviceDiagnosticsModule>(

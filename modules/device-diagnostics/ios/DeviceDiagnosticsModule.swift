@@ -8,6 +8,7 @@ struct VibrationOptions: Record {
 
 public class DeviceDiagnosticsModule: Module {
   private var batteryObservers: [NSObjectProtocol] = []
+  private var isManuallyMonitoring = false
 
   public func definition() -> ModuleDefinition {
     Name("DeviceDiagnostics")
@@ -75,6 +76,16 @@ public class DeviceDiagnosticsModule: Module {
       }
 
       return ["availableBytes": freeSize.int64Value]
+    }
+
+    Function("startMonitoring") {
+      self.isManuallyMonitoring = true
+      self.startBatteryMonitoring()
+    }
+
+    Function("stopMonitoring") {
+      self.isManuallyMonitoring = false
+      self.stopBatteryMonitoring()
     }
   }
 

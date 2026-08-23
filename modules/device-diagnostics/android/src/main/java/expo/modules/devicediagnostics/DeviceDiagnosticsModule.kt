@@ -26,6 +26,7 @@ class VibrationOptions : Record {
 
 class DeviceDiagnosticsModule : Module() {
     private var batteryReceiver: BroadcastReceiver? = null
+    private var isManuallyMonitoring = false
 
     override fun definition() = ModuleDefinition {
         Name("DeviceDiagnostics")
@@ -95,6 +96,16 @@ class DeviceDiagnosticsModule : Module() {
             }
 
             mapOf("availableBytes" to availableBytes)
+        }
+
+        Function("startMonitoring") {
+            isManuallyMonitoring = true
+            startBatteryMonitoring()
+        }
+
+        Function("stopMonitoring") {
+            isManuallyMonitoring = false
+            stopBatteryMonitoring()
         }
     }
 

@@ -23,6 +23,9 @@ export default function DeviceDiagnosticsScreen() {
   );
   const [batteryEvent, setBatteryEvent] =
     useState<BatteryStateChangedEvent | null>(null);
+  const [monitoringStatus, setMonitoringStatus] = useState<
+    "idle" | "monitoring" | "stopped"
+  >("idle");
 
   let nativePlatformName: DevicePlatformName | "unavailable" = "unavailable";
   let nativeDeviceInfo: DeviceInfo | null = null;
@@ -61,6 +64,20 @@ export default function DeviceDiagnosticsScreen() {
     };
   }, []);
 
+  const toggleMonitoring = () => {
+    try {
+      if (monitoringStatus === "monitoring") {
+        DeviceDiagnosticsModule.stopMonitoring();
+        setMonitoringStatus("stopped");
+      } else {
+        DeviceDiagnosticsModule.startMonitoring();
+        setMonitoringStatus("monitoring");
+      }
+    } catch {
+      setMonitoringStatus("idle");
+    }
+  };
+
   try {
     nativePlatformName = DeviceDiagnosticsModule.getPlatformName();
     nativeDeviceInfo = DeviceDiagnosticsModule.getDeviceInfo();
@@ -81,7 +98,8 @@ export default function DeviceDiagnosticsScreen() {
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Device Diagnostics</Text>
         <Text tone="muted">
-          Stage 5 emits native battery updates and receives them in JavaScript.
+          Stage 6 adds explicit lifecycle control with
+          startMonitoring/stopMonitoring.
         </Text>
         <Text>Module: {DeviceDiagnosticsModule ? "loaded" : "missing"}</Text>
         <Text>React Native Platform.OS: {Platform.OS}</Text>
@@ -110,6 +128,15 @@ export default function DeviceDiagnosticsScreen() {
             ? `level=${batteryEvent.level.toFixed(2)} charging=${batteryEvent.isCharging ? "true" : "false"}`
             : "waiting for event"}
         </Text>
+        <Button
+          size="sm"
+          variant={monitoringStatus === "monitoring" ? "secondary" : "primary"}
+          onPress={toggleMonitoring}
+        >
+          {monitoringStatus === "monitoring" ? "Stop" : "Start"} Battery
+          Monitoring
+        </Button>
+        <Text>Monitoring status: {monitoringStatus}</Text>
       </View>
     </Screen>
   );
