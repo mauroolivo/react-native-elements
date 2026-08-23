@@ -78,6 +78,26 @@ public class DeviceDiagnosticsModule: Module {
       return ["availableBytes": freeSize.int64Value]
     }
 
+    View(DeviceDiagnosticsView.self) {
+      Prop("showBattery") { (view: DeviceDiagnosticsView, showBattery: Bool) in
+        view.setShowBattery(showBattery)
+      }
+
+      Prop("showMemory") { (view: DeviceDiagnosticsView, showMemory: Bool) in
+        view.setShowMemory(showMemory)
+      }
+
+      Prop("showDisk") { (view: DeviceDiagnosticsView, showDisk: Bool) in
+        view.setShowDisk(showDisk)
+      }
+
+      Prop("refreshInterval") { (view: DeviceDiagnosticsView, refreshInterval: Double?) in
+        view.setRefreshInterval(refreshInterval)
+      }
+
+      Events("onBatteryPress")
+    }
+
     Function("startMonitoring") {
       self.isManuallyMonitoring = true
       self.startBatteryMonitoring()

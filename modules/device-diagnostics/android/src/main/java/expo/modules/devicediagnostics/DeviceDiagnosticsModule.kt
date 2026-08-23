@@ -98,6 +98,26 @@ class DeviceDiagnosticsModule : Module() {
             mapOf("availableBytes" to availableBytes)
         }
 
+        View(DeviceDiagnosticsView::class) {
+            Events("onBatteryPress")
+
+            Prop("showBattery") { view: DeviceDiagnosticsView, value: Boolean ->
+                view.setShowBattery(value)
+            }
+
+            Prop("showMemory") { view: DeviceDiagnosticsView, value: Boolean ->
+                view.setShowMemory(value)
+            }
+
+            Prop("showDisk") { view: DeviceDiagnosticsView, value: Boolean ->
+                view.setShowDisk(value)
+            }
+
+            Prop("refreshInterval") { view: DeviceDiagnosticsView, value: Double? ->
+                view.setRefreshInterval(value)
+            }
+        }
+
         Function("startMonitoring") {
             isManuallyMonitoring = true
             startBatteryMonitoring()

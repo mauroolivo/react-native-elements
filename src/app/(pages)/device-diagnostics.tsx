@@ -9,6 +9,7 @@ import type {
   DiskSpaceInfo,
 } from "../../../modules/device-diagnostics/src/DeviceDiagnostics.types";
 import DeviceDiagnosticsModule from "../../../modules/device-diagnostics/src/DeviceDiagnosticsModule";
+import DeviceDiagnosticsView from "../../../modules/device-diagnostics/src/DeviceDiagnosticsView";
 import { Button, Screen, Text } from "../../components/ui";
 
 export default function DeviceDiagnosticsScreen() {
@@ -133,12 +134,23 @@ export default function DeviceDiagnosticsScreen() {
           variant={monitoringStatus === "monitoring" ? "secondary" : "primary"}
           onPress={toggleMonitoring}
         >
-          <Text>
-            {monitoringStatus === "monitoring" ? "Stop" : "Start"} Battery
-            Monitoring
-          </Text>
+          {`${monitoringStatus === "monitoring" ? "Stop" : "Start"} Battery Monitoring`}
         </Button>
         <Text>Monitoring status: {monitoringStatus}</Text>
+
+        <DeviceDiagnosticsView
+          showBattery
+          showMemory
+          showDisk
+          refreshInterval={1000}
+          onBatteryPress={(event) => {
+            setBatteryEvent({
+              level: event.nativeEvent.level,
+              isCharging: event.nativeEvent.isCharging,
+            });
+          }}
+          style={{ height: 140 }}
+        />
       </View>
     </Screen>
   );
