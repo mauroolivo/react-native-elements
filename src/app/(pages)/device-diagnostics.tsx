@@ -133,8 +133,10 @@ export default function DeviceDiagnosticsScreen() {
           variant={monitoringStatus === "monitoring" ? "secondary" : "primary"}
           onPress={toggleMonitoring}
         >
-          {monitoringStatus === "monitoring" ? "Stop" : "Start"} Battery
-          Monitoring
+          <Text>
+            {monitoringStatus === "monitoring" ? "Stop" : "Start"} Battery
+            Monitoring
+          </Text>
         </Button>
         <Text>Monitoring status: {monitoringStatus}</Text>
       </View>
