@@ -20,4 +20,6 @@ Pod::Spec.new do |s|
   }
 
   s.source_files = "DeviceDiagnosticsModule.swift", "DeviceDiagnosticsView.swift"
+
+  s.dependency 'DGCharts'
 end

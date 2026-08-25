@@ -11,6 +11,7 @@ import android.os.StatFs
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import com.github.mikephil.charting.charts.LineChart
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.records.Field
@@ -27,6 +28,8 @@ class VibrationOptions : Record {
 class DeviceDiagnosticsModule : Module() {
     private var batteryReceiver: BroadcastReceiver? = null
     private var isManuallyMonitoring = false
+
+    private fun chartLibraryCompileTimeProof(): Class<LineChart> = LineChart::class.java
 
     override fun definition() = ModuleDefinition {
         Name("DeviceDiagnostics")
