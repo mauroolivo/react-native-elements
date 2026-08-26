@@ -3,11 +3,11 @@ plugins {
   id 'expo-module-gradle-plugin'
 }
 
-group = 'expo.modules.devicediagnostics'
+group = 'expo.modules.nativelinechart'
 version = '0.1.0'
 
 android {
-  namespace "expo.modules.devicediagnostics"
+  namespace "expo.modules.nativelinechart"
   defaultConfig {
     versionCode 1
     versionName "0.1.0"
@@ -15,4 +15,8 @@ android {
   lintOptions {
     abortOnError false
   }
+}
+
+dependencies {
+  implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

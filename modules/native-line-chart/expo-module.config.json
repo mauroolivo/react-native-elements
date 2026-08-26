@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["NativeLineChartModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.nativelinechart.NativeLineChartModule"]
+  }
+}

@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
-  s.name           = 'DeviceDiagnostics'
+  s.name           = 'NativeLineChart'
   s.version        = '1.0.0'
-  s.summary        = 'A sample project summary'
-  s.description    = 'A sample project description'
+  s.summary        = 'A native line chart view for learning Expo module integration'
+  s.description    = 'A native line chart view backed by DGCharts.'
   s.author         = ''
   s.homepage       = 'https://docs.expo.dev/modules/'
   s.platforms      = {
@@ -13,11 +13,11 @@ Pod::Spec.new do |s|
   s.static_framework = true
 
   s.dependency 'ExpoModulesCore'
+  s.dependency 'DGCharts'
 
-  # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
   }
 
-  s.source_files = "DeviceDiagnosticsModule.swift", "DeviceDiagnosticsView.swift"
+  s.source_files = "NativeLineChartModule.swift", "NativeLineChartView.swift"
 end

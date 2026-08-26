@@ -1,5 +1,4 @@
 import ExpoModulesCore
-import DGCharts
 import UIKit
 
 struct VibrationOptions: Record {
@@ -10,10 +9,6 @@ struct VibrationOptions: Record {
 public class DeviceDiagnosticsModule: Module {
   private var batteryObservers: [NSObjectProtocol] = []
   private var isManuallyMonitoring = false
-
-  private func chartLibraryCompileTimeProof() -> LineChartView.Type {
-    LineChartView.self
-  }
 
   public func definition() -> ModuleDefinition {
     Name("DeviceDiagnostics")
