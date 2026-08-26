@@ -16,9 +16,15 @@ export default function NativeLineChartScreen() {
       />
       <View className="gap-sm px-lg py-lg">
         <Text variant="headlineLg">Native Line Chart</Text>
-        <Text tone="muted">Stage 3: JS props update the native chart.</Text>
+        <Text tone="muted">Stage 4: JS data flows into the native chart.</Text>
         <NativeLineChart
           style={{ height: 300 }}
+          data={[
+            { x: 0, y: 10 },
+            { x: 1, y: 14 },
+            { x: 2, y: 9 },
+            { x: 3, y: 17 },
+          ]}
           lineWidth={3}
           showGrid={false}
         />

@@ -8,6 +8,10 @@ class NativeLineChartModule : Module() {
         Name("NativeLineChart")
 
         View(NativeLineChartView::class) {
+            Prop("data") { view: NativeLineChartView, value: List<Map<String, Double>> ->
+                view.setData(value)
+            }
+
             Prop("lineWidth") { view: NativeLineChartView, value: Double ->
                 view.setLineWidth(value.toFloat())
             }

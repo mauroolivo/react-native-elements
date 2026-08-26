@@ -6,6 +6,10 @@ public class NativeLineChartModule: Module {
     Name("NativeLineChart")
 
     View(NativeLineChartView.self) {
+      Prop("data") { (view: NativeLineChartView, value: [[String: Double]]) in
+        view.setData(value)
+      }
+
       Prop("lineWidth") { (view: NativeLineChartView, value: Double) in
         view.setLineWidth(value)
       }

@@ -18,7 +18,14 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         chartView.legend.isEnabled = false
         chartView.axisRight.isEnabled = false
         chartView.xAxis.position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
-        chartView.data = makeChartData()
+        chartView.data = makeChartData(
+            listOf(
+                mapOf("x" to 0.0, "y" to 10.0),
+                mapOf("x" to 1.0, "y" to 14.0),
+                mapOf("x" to 2.0, "y" to 9.0),
+                mapOf("x" to 3.0, "y" to 17.0),
+            )
+        )
         applyChartAppearance()
         addView(chartView)
     }
@@ -53,6 +60,13 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         chartView.invalidate()
     }
 
+    fun setData(value: List<Map<String, Double>>) {
+        chartView.data = makeChartData(value)
+        applyChartAppearance()
+        chartView.postInvalidate()
+        chartView.invalidate()
+    }
+
     private fun applyChartAppearance() {
         chartView.xAxis.setDrawGridLines(showGrid)
         chartView.axisLeft.setDrawGridLines(showGrid)
@@ -68,18 +82,19 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         }
     }
 
-    private fun makeChartData(): LineData {
-        val entries = listOf(
-            Entry(0f, 10f),
-            Entry(1f, 14f),
-            Entry(2f, 9f),
-            Entry(3f, 17f),
-        )
+    private fun makeChartData(points: List<Map<String, Double>>): LineData {
+        val entries = points.mapNotNull { point ->
+            val x = point["x"] ?: return@mapNotNull null
+            val y = point["y"] ?: return@mapNotNull null
+            Entry(x.toFloat(), y.toFloat())
+        }
+
         val dataSet = LineDataSet(entries, "Sample").apply {
             lineWidth = this@NativeLineChartView.lineWidth
             circleRadius = 4f
             setDrawValues(false)
         }
+
         return LineData(dataSet)
     }
 }
