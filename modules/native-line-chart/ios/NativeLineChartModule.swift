@@ -5,6 +5,14 @@ public class NativeLineChartModule: Module {
   public func definition() -> ModuleDefinition {
     Name("NativeLineChart")
 
-    View(NativeLineChartView.self) {}
+    View(NativeLineChartView.self) {
+      Prop("lineWidth") { (view: NativeLineChartView, value: Double) in
+        view.setLineWidth(value)
+      }
+
+      Prop("showGrid") { (view: NativeLineChartView, value: Bool) in
+        view.setShowGrid(value)
+      }
+    }
   }
 }
