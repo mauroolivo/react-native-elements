@@ -2,14 +2,16 @@ import DGCharts
 import ExpoModulesCore
 import UIKit
 
-public final class NativeLineChartView: ExpoView {
+public final class NativeLineChartView: ExpoView, ChartViewDelegate {
   private let chartView = LineChartView()
+  private let onPointSelected = EventDispatcher()
   private var lineWidth: CGFloat = 2
   private var showGrid = true
 
   required public init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
 
+    chartView.delegate = self
     chartView.chartDescription.enabled = false
     chartView.legend.enabled = false
     chartView.rightAxis.enabled = false
@@ -53,6 +55,15 @@ public final class NativeLineChartView: ExpoView {
     applyChartAppearance()
   }
 
+  public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+    let index = (chartView.data?.dataSets.first as? LineChartDataSet)?.entryIndex(entry: entry) ?? 0
+    onPointSelected([
+      "index": index,
+      "x": entry.x,
+      "y": entry.y,
+    ])
+  }
+
   private func applyChartAppearance() {
     chartView.xAxis.drawGridLinesEnabled = showGrid
     chartView.leftAxis.drawGridLinesEnabled = showGrid
@@ -67,7 +78,7 @@ public final class NativeLineChartView: ExpoView {
   }
 
   private func makeChartData(from points: [[String: Double]]) -> LineChartData {
-    let entries = points.compactMap { point in
+    let entries: [ChartDataEntry] = points.compactMap { (point: [String: Double]) -> ChartDataEntry? in
       guard let x = point["x"], let y = point["y"] else {
         return nil
       }

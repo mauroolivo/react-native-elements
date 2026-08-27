@@ -8,6 +8,8 @@ class NativeLineChartModule : Module() {
         Name("NativeLineChart")
 
         View(NativeLineChartView::class) {
+            Events("onPointSelected")
+
             Prop("data") { view: NativeLineChartView, value: List<Map<String, Double>> ->
                 view.setData(value)
             }

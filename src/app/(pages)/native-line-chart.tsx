@@ -27,6 +27,9 @@ export default function NativeLineChartScreen() {
           ]}
           lineWidth={3}
           showGrid={false}
+          onPointSelected={(event) => {
+            console.log(event.nativeEvent);
+          }}
         />
       </View>
     </Screen>

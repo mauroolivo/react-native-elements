@@ -6,6 +6,8 @@ public class NativeLineChartModule: Module {
     Name("NativeLineChart")
 
     View(NativeLineChartView.self) {
+      Events("onPointSelected")
+
       Prop("data") { (view: NativeLineChartView, value: [[String: Double]]) in
         view.setData(value)
       }

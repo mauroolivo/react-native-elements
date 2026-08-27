@@ -5,11 +5,15 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import expo.modules.kotlin.AppContext
+import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.kotlin.views.ExpoView
 
 class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
     private val chartView = LineChart(context)
+    private val onPointSelected by EventDispatcher()
     private var lineWidth = 2f
     private var showGrid = true
 
@@ -18,6 +22,30 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         chartView.legend.isEnabled = false
         chartView.axisRight.isEnabled = false
         chartView.xAxis.position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+        chartView.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                val entry = e ?: return
+                val index = chartView.data?.dataSets
+                    ?.firstOrNull()
+                    ?.let { dataSet ->
+                        if (dataSet is LineDataSet) {
+                            dataSet.values.indexOf(entry)
+                        } else {
+                            0
+                        }
+                    } ?: 0
+
+                onPointSelected(
+                    mapOf(
+                        "index" to index,
+                        "x" to entry.x.toDouble(),
+                        "y" to entry.y.toDouble(),
+                    )
+                )
+            }
+
+            override fun onNothingSelected() = Unit
+        })
         chartView.data = makeChartData(
             listOf(
                 mapOf("x" to 0.0, "y" to 10.0),
