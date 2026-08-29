@@ -17,3 +17,7 @@ export type NativeLineChartProps = ViewProps & {
   showGrid?: boolean;
   onPointSelected?: (event: NativeSyntheticEvent<PointSelectedEvent>) => void;
 };
+
+export type NativeLineChartRef = {
+  resetZoom: () => Promise<void>;
+};

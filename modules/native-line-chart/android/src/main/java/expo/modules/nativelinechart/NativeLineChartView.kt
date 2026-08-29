@@ -95,6 +95,10 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         chartView.invalidate()
     }
 
+    fun resetZoom() {
+        chartView.fitScreen()
+    }
+
     private fun applyChartAppearance() {
         chartView.xAxis.setDrawGridLines(showGrid)
         chartView.axisLeft.setDrawGridLines(showGrid)

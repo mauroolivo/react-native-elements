@@ -10,6 +10,10 @@ class NativeLineChartModule : Module() {
         View(NativeLineChartView::class) {
             Events("onPointSelected")
 
+            AsyncFunction("resetZoom") { view: NativeLineChartView ->
+                view.resetZoom()
+            }
+
             Prop("data") { view: NativeLineChartView, value: List<Map<String, Double>> ->
                 view.setData(value)
             }

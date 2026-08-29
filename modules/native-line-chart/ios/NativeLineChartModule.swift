@@ -8,6 +8,10 @@ public class NativeLineChartModule: Module {
     View(NativeLineChartView.self) {
       Events("onPointSelected")
 
+      AsyncFunction("resetZoom") { (view: NativeLineChartView) in
+        view.resetZoom()
+      }
+
       Prop("data") { (view: NativeLineChartView, value: [[String: Double]]) in
         view.setData(value)
       }

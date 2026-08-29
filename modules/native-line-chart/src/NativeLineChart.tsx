@@ -1,15 +1,22 @@
 import { requireNativeViewManager } from "expo-modules-core";
-import type { ReactElement } from "react";
+import type { ReactElement, Ref } from "react";
 
-import type { NativeLineChartProps } from "./NativeLineChart.types";
+import type {
+  NativeLineChartProps,
+  NativeLineChartRef,
+} from "./NativeLineChart.types";
 
-const NativeLineChartView = requireNativeViewManager<NativeLineChartProps>(
+type NativeLineChartViewProps = NativeLineChartProps & {
+  ref?: Ref<NativeLineChartRef>;
+};
+
+const NativeLineChartView = requireNativeViewManager<NativeLineChartViewProps>(
   "NativeLineChart",
   "NativeLineChartView",
 );
 
 export default function NativeLineChart(
-  props: NativeLineChartProps,
+  props: NativeLineChartProps & { ref?: Ref<NativeLineChartRef> },
 ): ReactElement {
   return <NativeLineChartView {...props} />;
 }

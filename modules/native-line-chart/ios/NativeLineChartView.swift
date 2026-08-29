@@ -55,6 +55,10 @@ public final class NativeLineChartView: ExpoView, ChartViewDelegate {
     applyChartAppearance()
   }
 
+  func resetZoom() {
+    chartView.fitScreen()
+  }
+
   public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
     let index = (chartView.data?.dataSets.first as? LineChartDataSet)?.entryIndex(entry: entry) ?? 0
     onPointSelected([
