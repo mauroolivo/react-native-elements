@@ -9,7 +9,7 @@ import {
 import { Button, Screen, Text } from "../../components/ui";
 
 const generateSampleChartData = () =>
-  Array.from({ length: 150 }, (_, index) => ({
+  Array.from({ length: 300 }, (_, index) => ({
     x: index,
     y: Math.floor((Math.sin(index * 0.4) + 1) * 50),
   }));
