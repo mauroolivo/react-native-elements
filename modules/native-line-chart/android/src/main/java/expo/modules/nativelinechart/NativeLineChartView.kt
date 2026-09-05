@@ -18,9 +18,12 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
     private var showGrid = true
 
     init {
+        android.util.Log.d("NativeLineChartView", "Native view created")
         chartView.description.isEnabled = false
         chartView.legend.isEnabled = false
         chartView.axisRight.isEnabled = false
+        chartView.setTouchEnabled(true)
+        chartView.setHighlightPerTapEnabled(true)
         chartView.xAxis.position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
         chartView.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(e: Entry?, h: Highlight?) {
@@ -35,6 +38,7 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
                         }
                     } ?: 0
 
+                android.util.Log.d("NativeLineChartView", "Point selected: index=$index, x=${entry.x}, y=${entry.y}")
                 onPointSelected(
                     mapOf(
                         "index" to index,
@@ -46,6 +50,7 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
 
             override fun onNothingSelected() = Unit
         })
+        android.util.Log.d("NativeLineChartView", "Listener attached (OnChartValueSelectedListener registered)")
         chartView.data = makeChartData(
             listOf(
                 mapOf("x" to 0.0, "y" to 10.0),
@@ -89,8 +94,10 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
     }
 
     fun setData(value: List<Map<String, Double>>) {
+        android.util.Log.d("NativeLineChartView", "Data updated with ${value.size} points")
         chartView.data = makeChartData(value)
         applyChartAppearance()
+        chartView.notifyDataSetChanged()
         chartView.postInvalidate()
         chartView.invalidate()
     }
@@ -128,5 +135,11 @@ class NativeLineChartView(context: Context, appContext: AppContext) : ExpoView(c
         }
 
         return LineData(dataSet)
+    }
+
+    override fun onDetachedFromWindow() {
+        android.util.Log.d("NativeLineChartView", "Native view destroyed, listener detached")
+        chartView.setOnChartValueSelectedListener(null)
+        super.onDetachedFromWindow()
     }
 }

@@ -10,8 +10,10 @@ public final class NativeLineChartView: ExpoView, ChartViewDelegate {
 
   required public init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
+    NSLog("[NativeLineChartView] Native view created")
 
     chartView.delegate = self
+    NSLog("[NativeLineChartView] Listener attached (delegate set)")
     chartView.chartDescription.enabled = false
     chartView.legend.enabled = false
     chartView.rightAxis.enabled = false
@@ -51,6 +53,7 @@ public final class NativeLineChartView: ExpoView, ChartViewDelegate {
   }
 
   func setData(_ value: [[String: Double]]) {
+    NSLog("[NativeLineChartView] Data updated with \(value.count) points")
     chartView.data = makeChartData(from: value)
     applyChartAppearance()
   }
@@ -61,6 +64,7 @@ public final class NativeLineChartView: ExpoView, ChartViewDelegate {
 
   public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
     let index = (chartView.data?.dataSets.first as? LineChartDataSet)?.entryIndex(entry: entry) ?? 0
+    NSLog("[NativeLineChartView] Point selected: index=\(index), x=\(entry.x), y=\(entry.y)")
     onPointSelected([
       "index": index,
       "x": entry.x,
@@ -94,5 +98,10 @@ public final class NativeLineChartView: ExpoView, ChartViewDelegate {
     dataSet.circleRadius = 4
     dataSet.drawValuesEnabled = false
     return LineChartData(dataSet: dataSet)
+  }
+
+  deinit {
+    NSLog("[NativeLineChartView] Native view destroyed, listener detached")
+    chartView.delegate = nil
   }
 }
