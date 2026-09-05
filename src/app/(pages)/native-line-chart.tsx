@@ -8,6 +8,12 @@ import {
 } from "../../../modules/native-line-chart/src";
 import { Button, Screen, Text } from "../../components/ui";
 
+const generateSampleChartData = () =>
+  Array.from({ length: 150 }, (_, index) => ({
+    x: index,
+    y: Math.floor((Math.sin(index * 0.4) + 1) * 50),
+  }));
+
 export default function NativeLineChartScreen() {
   const chartRef = useRef<NativeLineChartRef>(null);
 
@@ -25,12 +31,7 @@ export default function NativeLineChartScreen() {
         <Text tone="muted">Stage 6: JS can call the native chart ref.</Text>
         <NativeLineChart
           style={{ height: 300 }}
-          data={[
-            { x: 0, y: 10 },
-            { x: 1, y: 14 },
-            { x: 2, y: 9 },
-            { x: 3, y: 17 },
-          ]}
+          data={generateSampleChartData()}
           lineWidth={3}
           showGrid={false}
           ref={chartRef}
